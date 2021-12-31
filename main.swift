@@ -17,6 +17,7 @@ func getData(from url: String) -> String?
     {
         let group = DispatchGroup()
         var request = URLRequest(url: url)
+        request.cachePolicy = .returnCacheDataElseLoad
         request.httpMethod = "POST"
         request.httpBody = "SHANE".data(using: .utf8)
         group.enter()
@@ -33,7 +34,7 @@ func getData(from url: String) -> String?
     return returnString
 }
 
-let returnString = getData(from: "http://www.nhl-predictor.com")
+let returnString = getData(from: "http://www.nhl-predictor.com/test.php")
 if let printString = returnString
 {
     print(printString)
