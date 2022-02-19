@@ -148,7 +148,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1310;
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					43B1EC72277C30D5003BFE5D = {
 						CreatedOnToolsVersion = 13.1;
@@ -317,9 +317,11 @@
 		43B1EC7B277C30D5003BFE5D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7QHJV2RJB2;
 				ENABLE_HARDENED_RUNTIME = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -328,6 +330,7 @@
 		43B1EC7C277C30D5003BFE5D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7QHJV2RJB2;
 				ENABLE_HARDENED_RUNTIME = YES;

@@ -7,63 +7,31 @@
 
 import Foundation
 
-print("START")
-
 func getData(from url: String) -> String?
 {
+    var returnString: String? = nil
     let url = URL(string: url)
-    var returnString: String?
     if let url = url
     {
-        let group = DispatchGroup()
         var request = URLRequest(url: url)
-//        request.httpMethod = "POST"
-//        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
-//        request.cachePolicy = .reloadRevalidatingCacheData
-//        request.cachePolicy = .returnCacheDataElseLoad
-//        request.httpMethod = "POST"
-//        request.httpBody = "ABC".data(using: .utf8)
-//        if let _ = URLCache.shared.cachedResponse(for: request)
-//        {
-//            print("CACHED")
-//        }
-//        group.enter()
-        group.enter()
-        let session = URLSession(configuration: .default)
-        let socketTask = session.webSocketTask(with: request)
-        socketTask.sendPing { error in
-            print("PONG")
-            group.leave()
+        request.httpMethod = "POST"
+        request.httpBody = "ABC".data(using: .utf8)
+        let semaphore = DispatchSemaphore(value: 0)
+        let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let data = data
+            {
+                returnString = String(data: data, encoding: .utf8)
+            }
+            semaphore.signal()
         }
-        
-        socketTask.resume()
-//        let dataTask = session.dataTask(with: request) { data, response, error in
-//            if let data = data
-//            {
-//                returnString = String(data: data, encoding: .utf8)
-//            }
-//
-//            group.leave()
-//        }
-//
-//        dataTask.resume()
-//        request.networkServiceType = .responsiveData
-//        let cache = URLCache.shared.cachedResponse(for: request)
-//        URLCache.shared.removeAllCachedResponses()
-
-        group.wait()
-
+        dataTask.resume()
+        semaphore.wait()
     }
-//    sleep(10000)
-//    print("DONE WITH METHOD")
     return returnString
 }
 
-let returnString = getData(from: "http://www.nhl-predictor.com")
-if let _ = returnString
+let returnString = getData(from: "http://www.nhl-predictor.com/test.php")
+if let printString = returnString
 {
-    print("DONE")
+    print(printString)
 }
-
-//let testing = getData(from: "http://www.toonhq.com")
-//print("SUPER DONE")
