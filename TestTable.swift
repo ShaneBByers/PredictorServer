@@ -11,10 +11,9 @@ class TestTable : Selectable
 {
     var tableName = "TEST_TABLE"
     
-    var TEST_COLUMN: Int
+    var TEST_COLUMN: Int?
     
     init()
     {
-        
     }
 }
