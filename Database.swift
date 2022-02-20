@@ -28,8 +28,9 @@ struct Database
                 { data, response, error in
                     if let jsonResponse = data
                     {
-                        let decoder = JSONDecoder()
-                        selectResponse = try? decoder.decode(SelectResponse<T>.self, from: jsonResponse)
+//                        let decoder = JSONDecoder()
+//                        selectResponse = try? decoder.decode(SelectResponse<T>.self, from: jsonResponse)
+                        print(String(data: jsonResponse, encoding: .utf8))
                     }
                     semaphore.signal()
                 }.resume()

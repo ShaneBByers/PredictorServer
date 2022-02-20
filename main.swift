@@ -9,7 +9,7 @@ import Foundation
 
 let testTable = TestTable()
 
-if let printString = Database.select(from: testTable)
+if let selectResponse = Database.select(from: testTable)
 {
-    print(printString)
+    print(selectResponse.rowCount)
 }
