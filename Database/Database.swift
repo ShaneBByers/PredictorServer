@@ -40,7 +40,11 @@ struct Database
                 if let jsonResponse = request(url, with: body)
                 {
                     let decoder = JSONDecoder()
-                    return try? decoder.decode([T].self, from: jsonResponse)
+                    if let decoded = try? decoder.decode([T].self, from: jsonResponse)
+                    {
+                        return decoded
+                    }
+                    print(String(data: jsonResponse, encoding: .utf8)!)
                 }
             }
         }
