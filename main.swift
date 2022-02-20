@@ -11,5 +11,11 @@ let testTable = TestTable()
 
 if let selectResponse = Database.select(from: testTable)
 {
-//    print(selectResponse.rowCount)
+    for result in selectResponse.results
+    {
+        if let testColumn = result.testColumn
+        {
+            print(testColumn)
+        }
+    }
 }
