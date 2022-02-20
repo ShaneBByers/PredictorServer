@@ -11,5 +11,5 @@ let testTable = TestTable()
 
 if let selectResponse = Database.select(from: testTable)
 {
-    print(selectResponse.rowCount)
+//    print(selectResponse.rowCount)
 }

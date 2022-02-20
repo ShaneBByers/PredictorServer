@@ -55,6 +55,8 @@ struct SelectRequest: Encodable
 struct SelectResponse<T: Selectable>: Decodable
 {
     var rowCount: Int
+    var filename: String
+    var connectionStatus: String
     var results: [T]
 }
 
