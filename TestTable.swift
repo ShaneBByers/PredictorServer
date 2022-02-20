@@ -11,7 +11,7 @@ final class TestTable : Selectable, Insertable
 {
     var tableName = "TEST_TABLE"
     
-    var testColumn: Int?
+    var testInt: Int?
     
     init()
     {
@@ -20,10 +20,10 @@ final class TestTable : Selectable, Insertable
     
     init(from decoder: Decoder)
     {
-        let container = try? decoder.container(keyedBy: CodingKeys.self)
-        if let testColumnString = try? container?.decode(String.self, forKey: .testColumn)
+        let container = try? decoder.container(keyedBy: TestTableColumn.self)
+        if let testIntString = try? container?.decode(String.self, forKey: .testInt)
         {
-            testColumn = Int(testColumnString)
+            testInt = Int(testIntString)
         }
     }
     
@@ -32,9 +32,13 @@ final class TestTable : Selectable, Insertable
         return columns.map { $0.rawValue }
     }
     
-    enum TestTableColumn: String, CodingKey
+    func allColumns() -> [String]
     {
-        case testColumn = "TEST_COLUMN"
+        return TestTableColumn.allCases.map { $0.rawValue }
+    }
+    
+    enum TestTableColumn: String, CodingKey, CaseIterable
+    {
+        case testInt = "TEST_INT"
     }
 }
-

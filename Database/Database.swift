@@ -71,14 +71,22 @@ struct Database
     {
         var databaseLogin = DatabaseLogin()
         var tableName: String
-        var columns: [String]?
+        var columns: [String]
         var values: [T]
         
         init(_ insertables: [T], usingColumns cols: [String]? = nil)
         {
-            tableName = T().tableName
-            columns = cols
+            let emptyT = T()
+            tableName = emptyT.tableName
             values = insertables
+            if let colArgs = cols
+            {
+                columns = colArgs
+            }
+            else
+            {
+                columns = emptyT.allColumns()
+            }
         }
     }
     

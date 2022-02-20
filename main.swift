@@ -7,7 +7,7 @@
 
 import Foundation
 
-if let testRows: [TestTable] = Database.select()
+if let testRows: [TestTable] = Database.select(onlyColumns: TestTable.columns([.testColumn]))
 {
     for testRow in testRows
     {
