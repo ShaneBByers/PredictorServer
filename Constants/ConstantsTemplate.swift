@@ -12,4 +12,5 @@ enum ConstantStringsTemplate : String
     case DB_SERVER_NAME = "DB_SERVER_NAME"
     case DB_USERNAME = "DB_USERNAME"
     case DB_PASSWORD = "DB_PASSWORD"
+    case DB_DATABASE_NAME = "DB_DATABASE_NAME"
 }
