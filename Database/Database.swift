@@ -11,45 +11,40 @@ struct Database
 {
     static let baseUrl = "http://www.nhl-predictor.com/"
     
-    static func insert<T: Insertable>(values insertables: [T]) -> InsertResponse?
+    static func insert<T: Insertable>(_ insertables: [T], onlyColumns columns: [String]? = nil) -> Int?
     {
-        var insertResponse: InsertResponse? = nil
         if let url = URL(string: baseUrl + "insert.php")
         {
-            if let insertRequest = InsertRequest(insertables: insertables)
+            let insertRequest = InsertRequest(insertables, usingColumns: columns)
+            let encoder = JSONEncoder()
+            if let body = try? encoder.encode(insertRequest)
             {
-                let encoder = JSONEncoder()
-                if let body = try? encoder.encode(insertRequest)
+                if let jsonResponse = request(url, with: body)
                 {
-                    if let jsonResponse = request(url, with: body)
-                    {
-                        print(String(data: jsonResponse, encoding: .utf8))
-                        let decoder = JSONDecoder()
-                        insertResponse = try? decoder.decode(InsertResponse.self, from: jsonResponse)
-                    }
+                    let decoder = JSONDecoder()
+                    return try? decoder.decode(Int.self, from: jsonResponse)
                 }
             }
         }
-        return insertResponse
+        return nil
     }
     
-    static func select<T: Selectable>(from selectable: T) -> SelectResponse<T>?
+    static func select<T: Selectable>(onlyColumns columns: [String]? = nil) -> [T]?
     {
-        var selectResponse: SelectResponse<T>? = nil
         if let url = URL(string: baseUrl + "select.php")
         {
-            let selectRequest = SelectRequest(selectable: selectable)
+            let selectRequest = SelectRequest<T>(usingColumns: columns)
             let encoder = JSONEncoder()
             if let body = try? encoder.encode(selectRequest)
             {
                 if let jsonResponse = request(url, with: body)
                 {
                     let decoder = JSONDecoder()
-                    selectResponse = try? decoder.decode(SelectResponse<T>.self, from: jsonResponse)
+                    return try? decoder.decode([T].self, from: jsonResponse)
                 }
             }
         }
-        return selectResponse
+        return nil
     }
     
     private static func request(_ url: URL, with body: Data) -> Data?
@@ -72,30 +67,27 @@ struct Database
     {
         var databaseLogin = DatabaseLogin()
         var tableName: String
+        var columns: [String]?
         var values: [T]
         
-        init?(insertables: [T])
+        init(_ insertables: [T], usingColumns cols: [String]? = nil)
         {
-            if let firstInsertable = insertables.first
-            {
-                tableName = firstInsertable.tableName
-            }
-            else
-            {
-                return nil
-            }
+            tableName = T().tableName
+            columns = cols
             values = insertables
         }
     }
     
-    private struct SelectRequest: Encodable
+    private struct SelectRequest<T: Selectable>: Encodable
     {
         var databaseLogin = DatabaseLogin()
         var tableName: String
+        var columns: [String]?
         
-        init(selectable: Selectable)
+        init(usingColumns cols: [String]? = nil)
         {
-            tableName = selectable.tableName
+            tableName = T().tableName
+            columns = cols
         }
     }
     

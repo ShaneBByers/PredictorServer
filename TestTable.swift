@@ -10,6 +10,7 @@ import Foundation
 final class TestTable : Selectable, Insertable
 {
     var tableName = "TEST_TABLE"
+    
     var testColumn: Int?
     
     init()
@@ -26,8 +27,14 @@ final class TestTable : Selectable, Insertable
         }
     }
     
-    enum CodingKeys: String, CodingKey
+    static func columns(_ columns: [TestTableColumn]) -> [String]
+    {
+        return columns.map { $0.rawValue }
+    }
+    
+    enum TestTableColumn: String, CodingKey
     {
         case testColumn = "TEST_COLUMN"
     }
 }
+
