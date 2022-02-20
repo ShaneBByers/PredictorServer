@@ -7,9 +7,8 @@
 
 import Foundation
 
-let databaseLogin = DatabaseLogin()
-let webServerConnector = WebServerConnector()
-let returnString = webServerConnector.getData(from: "test.php", with: databaseLogin)
+let requestTestTable = TestTable()
+let responseTestTables = 
 
 if let printString = returnString
 {
