@@ -11,9 +11,9 @@ struct Database
 {
     static let baseUrl = "http://www.nhl-predictor.com/"
     
-    static func select<T: Selectable>(from selectable: T) -> String?
+    static func select<T: Selectable>(from selectable: T) -> SelectResponse<T>?
     {
-        var returnString: String? = nil
+        var selectResponse: SelectResponse<T>? = nil
         if let url = URL(string: baseUrl + "select.php")
         {
             let selectRequest = SelectRequest(selectable: selectable)
@@ -28,16 +28,15 @@ struct Database
                 { data, response, error in
                     if let jsonResponse = data
                     {
-//                        let decoder = JSONDecoder()
-//                        returnObject = try? decoder.decode(selectable.self as! T.Type, from: jsonResponse)
-                        returnString = String(data: jsonResponse, encoding: .utf8)
+                        let decoder = JSONDecoder()
+                        selectResponse = try? decoder.decode(SelectResponse<T>.self, from: jsonResponse)
                     }
                     semaphore.signal()
                 }.resume()
                 semaphore.wait()
             }
         }
-        return returnString
+        return selectResponse
     }
 }
 
@@ -50,6 +49,12 @@ struct SelectRequest: Encodable
     {
         tableName = selectable.tableName
     }
+}
+
+struct SelectResponse<T: Selectable>: Decodable
+{
+    var rowCount: Int
+    var results: [T]
 }
 
 struct DatabaseLogin : Encodable
