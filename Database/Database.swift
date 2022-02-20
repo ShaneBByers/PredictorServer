@@ -23,6 +23,7 @@ struct Database
                 {
                     if let jsonResponse = request(url, with: body)
                     {
+                        print(String(data: jsonResponse, encoding: .utf8))
                         let decoder = JSONDecoder()
                         insertResponse = try? decoder.decode(InsertResponse.self, from: jsonResponse)
                     }
