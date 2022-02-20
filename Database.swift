@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct DatabaseConnector
+struct Database
 {
-    let baseUrl = "http://www.nhl-predictor.com/"
+    static let baseUrl = "http://www.nhl-predictor.com/"
     
-    func select<T: Selectable>(from selectable: T) -> [T?]?
+    static func select<T: Selectable>(from selectable: T) -> String?
     {
-        let returnObjectList: [T?]? = nil
+        var returnString: String? = nil
         if let url = URL(string: baseUrl + "select.php")
         {
             let selectRequest = SelectRequest(selectable: selectable)
@@ -30,14 +30,14 @@ struct DatabaseConnector
                     {
 //                        let decoder = JSONDecoder()
 //                        returnObject = try? decoder.decode(selectable.self as! T.Type, from: jsonResponse)
-                        print(String(data: jsonResponse, encoding: .utf8)!)
+                        returnString = String(data: jsonResponse, encoding: .utf8)
                     }
                     semaphore.signal()
                 }.resume()
                 semaphore.wait()
             }
         }
-        return returnObjectList
+        return returnString
     }
 }
 
@@ -50,4 +50,12 @@ struct SelectRequest: Encodable
     {
         tableName = selectable.tableName
     }
+}
+
+struct DatabaseLogin : Encodable
+{
+    let serverName = ConstantStrings.DB_SERVER_NAME.rawValue
+    let username = ConstantStrings.DB_USERNAME.rawValue
+    let password = ConstantStrings.DB_PASSWORD.rawValue
+    let databaseName = ConstantStrings.DB_DATABASE_NAME.rawValue
 }

@@ -24,8 +24,7 @@
 		43B1ECAE277C35E0003BFE5D /* Handedness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B1ECA0277C35E0003BFE5D /* Handedness.swift */; };
 		43BF769227C1B5EE00CD9874 /* ConstantsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF769127C1B5EE00CD9874 /* ConstantsTemplate.swift */; };
 		43BF769627C1B7C600CD9874 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF769527C1B7C600CD9874 /* Constants.swift */; };
-		43BF769827C1C8D400CD9874 /* DatabaseConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF769727C1C8D400CD9874 /* DatabaseConnector.swift */; };
-		43BF769A27C1CEC300CD9874 /* DatabaseLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF769927C1CEC300CD9874 /* DatabaseLogin.swift */; };
+		43BF769827C1C8D400CD9874 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF769727C1C8D400CD9874 /* Database.swift */; };
 		43BF769E27C1D94F00CD9874 /* TestTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF769D27C1D94F00CD9874 /* TestTable.swift */; };
 		43BF76A027C1DE3300CD9874 /* Selectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF769F27C1DE3300CD9874 /* Selectable.swift */; };
 /* End PBXBuildFile section */
@@ -61,8 +60,7 @@
 		43B1ECA0277C35E0003BFE5D /* Handedness.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Handedness.swift; sourceTree = "<group>"; };
 		43BF769127C1B5EE00CD9874 /* ConstantsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsTemplate.swift; sourceTree = "<group>"; };
 		43BF769527C1B7C600CD9874 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		43BF769727C1C8D400CD9874 /* DatabaseConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseConnector.swift; sourceTree = "<group>"; };
-		43BF769927C1CEC300CD9874 /* DatabaseLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseLogin.swift; sourceTree = "<group>"; };
+		43BF769727C1C8D400CD9874 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		43BF769D27C1D94F00CD9874 /* TestTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTable.swift; sourceTree = "<group>"; };
 		43BF769F27C1DE3300CD9874 /* Selectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selectable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,8 +85,7 @@
 				43B1ECAF277C35F7003BFE5D /* Enums */,
 				43BF769F27C1DE3300CD9874 /* Selectable.swift */,
 				43BF769D27C1D94F00CD9874 /* TestTable.swift */,
-				43BF769927C1CEC300CD9874 /* DatabaseLogin.swift */,
-				43BF769727C1C8D400CD9874 /* DatabaseConnector.swift */,
+				43BF769727C1C8D400CD9874 /* Database.swift */,
 				43B1EC76277C30D5003BFE5D /* main.swift */,
 				43B1EC74277C30D5003BFE5D /* Products */,
 			);
@@ -228,11 +225,10 @@
 				43B1ECA7277C35E0003BFE5D /* Season.swift in Sources */,
 				43BF769627C1B7C600CD9874 /* Constants.swift in Sources */,
 				43B1ECAB277C35E0003BFE5D /* Venue.swift in Sources */,
-				43BF769A27C1CEC300CD9874 /* DatabaseLogin.swift in Sources */,
 				43B1ECAE277C35E0003BFE5D /* Handedness.swift in Sources */,
 				43B1ECA9277C35E0003BFE5D /* Game.swift in Sources */,
 				43BF76A027C1DE3300CD9874 /* Selectable.swift in Sources */,
-				43BF769827C1C8D400CD9874 /* DatabaseConnector.swift in Sources */,
+				43BF769827C1C8D400CD9874 /* Database.swift in Sources */,
 				43B1ECA3277C35E0003BFE5D /* Time.swift in Sources */,
 				43B1ECA2277C35E0003BFE5D /* GoalieGameResult.swift in Sources */,
 				43B1ECA4277C35E0003BFE5D /* Division.swift in Sources */,

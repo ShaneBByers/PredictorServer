@@ -7,10 +7,9 @@
 
 import Foundation
 
-let requestTestTable = TestTable()
-let responseTestTables = 
+let testTable = TestTable()
 
-if let printString = returnString
+if let printString = Database.select(from: testTable)
 {
     print(printString)
 }
