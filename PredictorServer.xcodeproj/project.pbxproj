@@ -148,6 +148,7 @@
 			buildConfigurationList = 43B1EC7A277C30D5003BFE5D /* Build configuration list for PBXNativeTarget "PredictorServer" */;
 			buildPhases = (
 				43B1EC6F277C30D5003BFE5D /* Sources */,
+				43BF769B27C1D1B400CD9874 /* ShellScript */,
 				43B1EC70277C30D5003BFE5D /* Frameworks */,
 				43B1EC71277C30D5003BFE5D /* CopyFiles */,
 			);
@@ -192,6 +193,26 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		43BF769B27C1D1B400CD9874 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		43B1EC6F277C30D5003BFE5D /* Sources */ = {
