@@ -7,21 +7,39 @@
 
 import Foundation
 
-var testRows: [TestTable] = []
+//var testRows: [TestTable] = []
+//
+//for i in 0..<3
+//{
+//    let testRow = TestTable()
+//    testRow.testInt = i * 10
+//    testRow.testString = String(i)
+//    testRows.append(testRow)
+//}
+//
+//if let rowCount = Database.insert(testRows, columns: TestTable.columns())
+//{
+//    print(rowCount)
+//}
+//else
+//{
+//    print("Error")
+//}
 
-for i in 0..<3
-{
-    let testRow = TestTable()
-    testRow.testInt = i * 10
-    testRow.testString = String(i)
-    testRows.append(testRow)
-}
+//var selectRows: [TestTable]? = Database.select(TestTable.where([(.testInt, .gt, 2), (.testInt, .lte, 10)]), TestTable.columns([.testInt]))
+//
+//if let selectRows = selectRows
+//{
+//    for selectRow in selectRows
+//    {
+//        print(selectRow)
+//    }
+//}
 
-if let rowCount = Database.insert(testRows, columns: TestTable.columns())
+var testTable = TestTable()
+testTable.testString = "TESTING"
+
+if let rowCount = Database.update(testTable, TestTable.columns([.testString]), TestTable.where([(.testInt, .gt, 5)]))
 {
     print(rowCount)
-}
-else
-{
-    print("Error")
 }

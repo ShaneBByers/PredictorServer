@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Selectable : Codable
+protocol Selectable: Codable
 {
     var tableName: String { get }
     init()

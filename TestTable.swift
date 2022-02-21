@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class TestTable : Selectable, Insertable
+struct TestTable : Selectable, Insertable, Updatable, CustomStringConvertible
 {
     var tableName = "TEST_TABLE"
     
@@ -34,7 +34,12 @@ final class TestTable : Selectable, Insertable
         return columns.map { (String(describing: $0), $0.rawValue) }
     }
     
-    enum TestTableColumn: String, CodingKey, CaseIterable, Encodable, CustomStringConvertible
+    static func `where`(_ components: [(column: TestTableColumn, operation: WhereOperation, value: Any?)]) -> [WhereClause]
+    {
+        return components.map { ($0.column.rawValue, $0.operation, $0.value) }
+    }
+    
+    enum TestTableColumn: String, CodingKey, CaseIterable, CustomStringConvertible
     {
         case testInt = "TEST_INT"
         case testString = "TEST_STRING"
@@ -49,5 +54,28 @@ final class TestTable : Selectable, Insertable
                     return "testString"
             }
         }
+    }
+    
+    var description: String
+    {
+        var returnString = "\(tableName):"
+        if let testInt = testInt
+        {
+            returnString += " \(testInt) |"
+        }
+        else
+        {
+            returnString += " NULL |"
+        }
+        if let testString = testString
+        {
+            returnString += " \(testString)"
+        }
+        else
+        {
+            returnString += " NULL"
+        }
+        
+        return returnString
     }
 }

@@ -7,13 +7,27 @@
 
 import Foundation
 
+typealias ColumnsMap = [(name: String, rawValue: String)]
+
+typealias WhereClause = (columnName: String, operation: WhereOperation, value: Any?)
+
+enum WhereOperation: String
+{
+    case lt = "<"
+    case lte = "<="
+    case gt = ">"
+    case gte = ">="
+    case eq = "="
+    case neq = "!="
+}
+
 struct Database
 {
     static let baseUrl = "http://www.nhl-predictor.com/"
     
     static func insert<T: Insertable>(_ insertables: [T], columns: ColumnsMap) -> Int?
     {
-        if let url = URL(string: baseUrl + "insert.php")
+        if let url = URL(string: baseUrl + "transaction.php")
         {
             let insertRequest = InsertRequest(insertables, columns: columns)
             let encoder = JSONEncoder()
@@ -33,11 +47,33 @@ struct Database
         return nil
     }
     
-    static func select<T: Selectable>(onlyColumns columns: [String]? = nil) -> [T]?
+    static func update<T: Updatable>(_ updatable: T, _ columns: ColumnsMap, _ whereClauses: [WhereClause]) -> Int?
+    {
+        if let url = URL(string: baseUrl + "transaction.php")
+        {
+            let updateRequest = UpdateRequest(updatable, columns: columns, whereClauses: whereClauses)
+            let encoder = JSONEncoder()
+            if let body = try? encoder.encode(updateRequest)
+            {
+                if let jsonResponse = request(url, with: body)
+                {
+                    let decoder = JSONDecoder()
+                    if let decoded = try? decoder.decode(Int.self, from: jsonResponse)
+                    {
+                        return decoded
+                    }
+                    print(String(data: jsonResponse, encoding: .utf8)!)
+                }
+            }
+        }
+        return nil
+    }
+    
+    static func select<T: Selectable>(_ whereClauses: [WhereClause]? = nil, _ columns: ColumnsMap? = nil) -> [T]?
     {
         if let url = URL(string: baseUrl + "select.php")
         {
-            let selectRequest = SelectRequest<T>(usingColumns: columns)
+            let selectRequest = SelectRequest<T>(whereClauses: whereClauses, columns: columns)
             let encoder = JSONEncoder()
             if let body = try? encoder.encode(selectRequest)
             {
@@ -71,6 +107,19 @@ struct Database
         return jsonResponse
     }
     
+    private static func dbString(_ value: Any?) -> String
+    {
+        switch value
+        {
+            case let intValue as Int:
+                return "\(intValue)"
+            case let stringValue as String:
+                return "'\(stringValue)'"
+            default:
+                return "NULL"
+        }
+    }
+    
     private struct InsertRequest<T: Insertable>: Encodable
     {
         var databaseLogin = DatabaseLogin()
@@ -85,7 +134,7 @@ struct Database
                 query += "\(rawValue), "
             }
             query.removeLast(2)
-            query += " VALUES ("
+            query += ") VALUES "
             for insertable in insertables {
                 query += "("
                 for dbValue in getStringValues(insertable, forNames: columns.map { $0.name })
@@ -96,7 +145,7 @@ struct Database
                 query += "), "
             }
             query.removeLast(2)
-            query += ");"
+            query += ";"
             
             print(query)
         }
@@ -114,18 +163,39 @@ struct Database
             }
             return returnList
         }
+    }
+    
+    private struct UpdateRequest<T: Updatable>: Encodable
+    {
+        var databaseLogin = DatabaseLogin()
+        var query: String
         
-        private func dbString(_ value: Any) -> String
+        init(_ updatable: T, columns: ColumnsMap, whereClauses: [WhereClause])
         {
-            switch value
+            query = "UPDATE \(updatable.tableName) SET "
+            for (enumName, dbName) in columns
             {
-                case let intValue as Int:
-                    return "\(intValue)"
-                case let stringValue as String:
-                    return "'\(stringValue)'"
-                default:
-                    return "NULL"
+                query += "\(dbName) = \(getStringValue(updatable, forName: enumName)), "
             }
+            query.removeLast(2)
+            query += " WHERE "
+            for whereClause in whereClauses {
+                let stringValue = dbString(whereClause.value)
+                query += "\(whereClause.columnName) \(whereClause.operation.rawValue) \(stringValue) AND "
+            }
+            query.removeLast(5);
+            query += ";"
+            print(query)
+        }
+        
+        private func getStringValue<T: Updatable>(_ updatable: T, forName enumName: String) -> String
+        {
+            let mirror = Mirror(reflecting: updatable.self)
+            if let property = mirror.children.first(where: { $0.label == enumName })
+            {
+                return dbString(property.value)
+            }
+            return "NULL"
         }
     }
     
@@ -134,23 +204,34 @@ struct Database
         var databaseLogin = DatabaseLogin()
         var query: String
         
-        init(usingColumns columns: [String]? = nil)
+        init(whereClauses: [WhereClause]?, columns: ColumnsMap?)
         {
             query = "SELECT "
             if let columnList = columns
             {
-                query += " ("
-                for column in columnList
+                query += "("
+                for (_, dbColumn) in columnList
                 {
-                    query += "\(column), "
+                    query += "\(dbColumn), "
                 }
                 query.removeLast(2)
+                query += ")"
             }
             else
             {
                 query += "*"
             }
-            query += " FROM \(T().tableName);"
+            query += " FROM \(T().tableName)"
+            if let whereClauses = whereClauses {
+                query += " WHERE "
+                for whereClause in whereClauses {
+                    let stringValue = dbString(whereClause.value)
+                    query += "\(whereClause.columnName) \(whereClause.operation.rawValue) \(stringValue) AND "
+                }
+                query.removeLast(5);
+            }
+            query += ";"
+            print(query)
         }
     }
     
