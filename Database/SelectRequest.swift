@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct SelectRequest<T: DatabaseTable>: Encodable
+struct SelectRequest<T: DatabaseTable>: DatabaseRequest
 {
-    var databaseLogin = DatabaseLogin()
+    let databaseLogin = DatabaseLogin()
     var query: String
     
     init(whereClauses: [WhereClause]?, columns: ColumnsMap?)

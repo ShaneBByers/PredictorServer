@@ -9,9 +9,10 @@ import Foundation
 
 struct InsertRequest<T: DatabaseTable>: DatabaseRequest
 {
+    let databaseLogin = DatabaseLogin()
     var query: String
     
-    init(_ insertables: [T], columns: ColumnsMap)
+    init(_ rows: [T], _ columns: ColumnsMap)
     {
         query = "INSERT INTO " + T.tableName + " ("
         for (_, rawValue) in columns
@@ -20,9 +21,9 @@ struct InsertRequest<T: DatabaseTable>: DatabaseRequest
         }
         query.removeLast(2)
         query += ") VALUES "
-        for insertable in insertables {
+        for row in rows {
             query += "("
-            for dbValue in getStringValues(insertable, forNames: columns.map { $0.name })
+            for dbValue in getStringValues(row, forNames: columns.map { $0.name })
             {
                 query += "\(dbValue), "
             }
@@ -35,10 +36,10 @@ struct InsertRequest<T: DatabaseTable>: DatabaseRequest
         print(query)
     }
     
-    private func getStringValues(_ insertable: T, forNames enumNames: [String]) -> [String]
+    private func getStringValues(_ row: T, forNames enumNames: [String]) -> [String]
     {
         var returnList: [String] = []
-        let mirror = Mirror(reflecting: insertable.self)
+        let mirror = Mirror(reflecting: row.self)
         for enumName in enumNames
         {
             if let property = mirror.children.first(where: { $0.label == enumName })

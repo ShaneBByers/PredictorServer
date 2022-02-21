@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct DeleteRequest: Encodable
+struct DeleteRequest: DatabaseRequest
 {
-    var databaseLogin = DatabaseLogin()
+    let databaseLogin = DatabaseLogin()
     var query: String
     
     init(_ tableName: String, _ whereClauses: [WhereClause])

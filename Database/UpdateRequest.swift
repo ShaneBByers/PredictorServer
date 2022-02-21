@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct UpdateRequest<T: DatabaseTable>: Encodable
+struct UpdateRequest<T: DatabaseTable>: DatabaseRequest
 {
-    var databaseLogin = DatabaseLogin()
+    let databaseLogin = DatabaseLogin()
     var query: String
     
-    init(_ updatable: T, columns: ColumnsMap, whereClauses: [WhereClause])
+    init(_ newValues: T, _ columns: ColumnsMap, _ whereClauses: [WhereClause])
     {
         query = "UPDATE \(T.tableName) SET "
         for (enumName, dbName) in columns
         {
-            query += "\(dbName) = \(getStringValue(updatable, forName: enumName)), "
+            query += "\(dbName) = \(getStringValue(newValues, forName: enumName)), "
         }
         query.removeLast(2)
         query += " WHERE "

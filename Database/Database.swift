@@ -13,86 +13,41 @@ typealias WhereClause = (columnName: String, operation: WhereOperation, value: A
 
 struct Database
 {
-    static let baseUrl = "http://www.nhl-predictor.com/"
+    private static let baseUrl = "http://www.nhl-predictor.com/"
+    private static let transactionPHP = "transaction.php"
+    private static let selectPHP = "select.php"
     
-    static func insert<T: DatabaseTable>(_ insertables: [T], columns: ColumnsMap) -> Int?
+    static func insert<T: DatabaseTable>(_ insertables: [T], _ columns: ColumnsMap) -> Int?
     {
-        if let url = URL(string: baseUrl + "transaction.php")
-        {
-            let insertRequest = InsertRequest(insertables, columns: columns)
-            let encoder = JSONEncoder()
-            if let body = try? encoder.encode(insertRequest)
-            {
-                if let jsonResponse = request(url, with: body)
-                {
-                    let decoder = JSONDecoder()
-                    if let decoded = try? decoder.decode(Int.self, from: jsonResponse)
-                    {
-                        return decoded
-                    }
-                    print(String(data: jsonResponse, encoding: .utf8)!)
-                }
-            }
-        }
-        return nil
+        return getResponse(from: transactionPHP, using: InsertRequest(insertables, columns))
     }
     
     static func update<T: DatabaseTable>(_ updatable: T, _ columns: ColumnsMap, _ whereClauses: [WhereClause]) -> Int?
     {
-        if let url = URL(string: baseUrl + "transaction.php")
-        {
-            let updateRequest = UpdateRequest(updatable, columns: columns, whereClauses: whereClauses)
-            let encoder = JSONEncoder()
-            if let body = try? encoder.encode(updateRequest)
-            {
-                if let jsonResponse = request(url, with: body)
-                {
-                    let decoder = JSONDecoder()
-                    if let decoded = try? decoder.decode(Int.self, from: jsonResponse)
-                    {
-                        return decoded
-                    }
-                    print(String(data: jsonResponse, encoding: .utf8)!)
-                }
-            }
-        }
-        return nil
+        return getResponse(from: transactionPHP, using: UpdateRequest(updatable, columns, whereClauses))
     }
     
     static func delete(from tableName: String, _ whereClauses: [WhereClause]) -> Int?
     {
-        if let url = URL(string: baseUrl + "transaction.php")
-        {
-            let deleteRequest = DeleteRequest(tableName, whereClauses)
-            let encoder = JSONEncoder()
-            if let body = try? encoder.encode(deleteRequest)
-            {
-                if let jsonResponse = request(url, with: body)
-                {
-                    let decoder = JSONDecoder()
-                    if let decoded = try? decoder.decode(Int.self, from: jsonResponse)
-                    {
-                        return decoded
-                    }
-                    print(String(data: jsonResponse, encoding: .utf8)!)
-                }
-            }
-        }
-        return nil
+        return getResponse(from: transactionPHP, using: DeleteRequest(tableName, whereClauses))
     }
     
     static func select<T: DatabaseTable>(_ whereClauses: [WhereClause]? = nil, _ columns: ColumnsMap? = nil) -> [T]?
     {
-        if let url = URL(string: baseUrl + "select.php")
+        return getResponse(from: selectPHP, using: SelectRequest<T>(whereClauses: whereClauses, columns: columns))
+    }
+    
+    private static func getResponse<Request: DatabaseRequest, Return: Decodable>(from filename: String, using request: Request) -> Return?
+    {
+        if let url = URL(string: baseUrl + filename)
         {
-            let selectRequest = SelectRequest<T>(whereClauses: whereClauses, columns: columns)
             let encoder = JSONEncoder()
-            if let body = try? encoder.encode(selectRequest)
+            if let body = try? encoder.encode(request)
             {
-                if let jsonResponse = request(url, with: body)
+                if let jsonResponse = executeRequest(url, with: body)
                 {
                     let decoder = JSONDecoder()
-                    if let decoded = try? decoder.decode([T].self, from: jsonResponse)
+                    if let decoded = try? decoder.decode(Return.self, from: jsonResponse)
                     {
                         return decoded
                     }
@@ -103,7 +58,7 @@ struct Database
         return nil
     }
     
-    private static func request(_ url: URL, with body: Data) -> Data?
+    private static func executeRequest(_ url: URL, with body: Data) -> Data?
     {
         var jsonResponse: Data? = nil
         var request = URLRequest(url: url)

@@ -44,7 +44,9 @@ import Foundation
 //    print(rowCount)
 //}
 
-if let rowCount = Database.delete(from: TestTable.tableName, TestTable.where([(.testInt, .gt, 5)]))
+let returnCount = Database.delete(from: TestTable.tableName, TestTable.where([(.testInt, .lt, 5)]))
+
+if let rowCount = returnCount
 {
     print(rowCount)
 }

@@ -14,11 +14,6 @@ protocol DatabaseRequest : Encodable
 
 extension DatabaseRequest
 {
-    var databaseLogin: DatabaseLogin
-    {
-        DatabaseLogin()
-    }
-    
     func dbString(_ value: Any?) -> String
     {
         switch value
