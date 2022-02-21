@@ -36,10 +36,15 @@ import Foundation
 //    }
 //}
 
-var testTable = TestTable()
-testTable.testString = "TESTING"
+//var testTable = TestTable()
+//testTable.testString = "TESTING"
+//
+//if let rowCount = Database.update(testTable, TestTable.columns([.testString]), TestTable.where([(.testInt, .gt, 5)]))
+//{
+//    print(rowCount)
+//}
 
-if let rowCount = Database.update(testTable, TestTable.columns([.testString]), TestTable.where([(.testInt, .gt, 5)]))
+if let rowCount = Database.delete(from: TestTable.tableName, TestTable.where([(.testInt, .gt, 5)]))
 {
     print(rowCount)
 }

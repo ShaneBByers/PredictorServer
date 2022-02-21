@@ -7,17 +7,14 @@
 
 import Foundation
 
-struct TestTable : Selectable, Insertable, Updatable, CustomStringConvertible
+struct TestTable : DatabaseTable
 {
-    var tableName = "TEST_TABLE"
+    static var tableName = "TEST_TABLE"
     
     var testInt: Int?
     var testString: String?
     
-    init()
-    {
-        
-    }
+    init() { }
     
     init(from decoder: Decoder)
     {
@@ -54,28 +51,5 @@ struct TestTable : Selectable, Insertable, Updatable, CustomStringConvertible
                     return "testString"
             }
         }
-    }
-    
-    var description: String
-    {
-        var returnString = "\(tableName):"
-        if let testInt = testInt
-        {
-            returnString += " \(testInt) |"
-        }
-        else
-        {
-            returnString += " NULL |"
-        }
-        if let testString = testString
-        {
-            returnString += " \(testString)"
-        }
-        else
-        {
-            returnString += " NULL"
-        }
-        
-        return returnString
     }
 }
