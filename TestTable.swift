@@ -12,6 +12,7 @@ final class TestTable : Selectable, Insertable
     var tableName = "TEST_TABLE"
     
     var testInt: Int?
+    var testString: String?
     
     init()
     {
@@ -25,20 +26,28 @@ final class TestTable : Selectable, Insertable
         {
             testInt = Int(testIntString)
         }
+        testString = try? container?.decode(String.self, forKey: .testString)
     }
     
-    static func columns(_ columns: [TestTableColumn]) -> [String]
+    static func columns(_ columns: [TestTableColumn] = TestTableColumn.allCases) -> ColumnsMap
     {
-        return columns.map { $0.rawValue }
+        return columns.map { (String(describing: $0), $0.rawValue) }
     }
     
-    func allColumns() -> [String]
-    {
-        return TestTableColumn.allCases.map { $0.rawValue }
-    }
-    
-    enum TestTableColumn: String, CodingKey, CaseIterable
+    enum TestTableColumn: String, CodingKey, CaseIterable, Encodable, CustomStringConvertible
     {
         case testInt = "TEST_INT"
+        case testString = "TEST_STRING"
+        
+        var description: String
+        {
+            switch self
+            {
+                case .testInt:
+                    return "testInt"
+                case .testString:
+                    return "testString"
+            }
+        }
     }
 }

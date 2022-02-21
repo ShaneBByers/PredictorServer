@@ -7,9 +7,10 @@
 
 import Foundation
 
+typealias ColumnsMap = [(name: String, rawValue: String)]
+
 protocol Insertable: Encodable
 {
     var tableName: String { get }
     init()
-    func allColumns() -> [String]
 }

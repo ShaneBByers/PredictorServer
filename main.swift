@@ -7,13 +7,21 @@
 
 import Foundation
 
-if let testRows: [TestTable] = Database.select(onlyColumns: TestTable.columns([.testColumn]))
+var testRows: [TestTable] = []
+
+for i in 0..<3
 {
-    for testRow in testRows
-    {
-        if let testColumn = testRow.testColumn
-        {
-            print(testColumn)
-        }
-    }
+    let testRow = TestTable()
+    testRow.testInt = i * 10
+    testRow.testString = String(i)
+    testRows.append(testRow)
+}
+
+if let rowCount = Database.insert(testRows, columns: TestTable.columns())
+{
+    print(rowCount)
+}
+else
+{
+    print("Error")
 }

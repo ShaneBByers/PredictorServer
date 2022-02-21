@@ -11,18 +11,22 @@ struct Database
 {
     static let baseUrl = "http://www.nhl-predictor.com/"
     
-    static func insert<T: Insertable>(_ insertables: [T], onlyColumns columns: [String]? = nil) -> Int?
+    static func insert<T: Insertable>(_ insertables: [T], columns: ColumnsMap) -> Int?
     {
         if let url = URL(string: baseUrl + "insert.php")
         {
-            let insertRequest = InsertRequest(insertables, usingColumns: columns)
+            let insertRequest = InsertRequest(insertables, columns: columns)
             let encoder = JSONEncoder()
             if let body = try? encoder.encode(insertRequest)
             {
                 if let jsonResponse = request(url, with: body)
                 {
                     let decoder = JSONDecoder()
-                    return try? decoder.decode(Int.self, from: jsonResponse)
+                    if let decoded = try? decoder.decode(Int.self, from: jsonResponse)
+                    {
+                        return decoded
+                    }
+                    print(String(data: jsonResponse, encoding: .utf8)!)
                 }
             }
         }
@@ -70,22 +74,57 @@ struct Database
     private struct InsertRequest<T: Insertable>: Encodable
     {
         var databaseLogin = DatabaseLogin()
-        var tableName: String
-        var columns: [String]
-        var values: [T]
+        var query: String
         
-        init(_ insertables: [T], usingColumns cols: [String]? = nil)
+        init(_ insertables: [T], columns: ColumnsMap)
         {
             let emptyT = T()
-            tableName = emptyT.tableName
-            values = insertables
-            if let colArgs = cols
+            query = "INSERT INTO " + emptyT.tableName + " ("
+            for (_, rawValue) in columns
             {
-                columns = colArgs
+                query += "\(rawValue), "
             }
-            else
+            query.removeLast(2)
+            query += " VALUES ("
+            for insertable in insertables {
+                query += "("
+                for dbValue in getStringValues(insertable, forNames: columns.map { $0.name })
+                {
+                    query += "\(dbValue), "
+                }
+                query.removeLast(2)
+                query += "), "
+            }
+            query.removeLast(2)
+            query += ");"
+            
+            print(query)
+        }
+        
+        private func getStringValues(_ insertable: T, forNames enumNames: [String]) -> [String]
+        {
+            var returnList: [String] = []
+            let mirror = Mirror(reflecting: insertable.self)
+            for enumName in enumNames
             {
-                columns = emptyT.allColumns()
+                if let property = mirror.children.first(where: { $0.label == enumName })
+                {
+                    returnList.append(dbString(property.value))
+                }
+            }
+            return returnList
+        }
+        
+        private func dbString(_ value: Any) -> String
+        {
+            switch value
+            {
+                case let intValue as Int:
+                    return "\(intValue)"
+                case let stringValue as String:
+                    return "'\(stringValue)'"
+                default:
+                    return "NULL"
             }
         }
     }
@@ -93,13 +132,25 @@ struct Database
     private struct SelectRequest<T: Selectable>: Encodable
     {
         var databaseLogin = DatabaseLogin()
-        var tableName: String
-        var columns: [String]?
+        var query: String
         
-        init(usingColumns cols: [String]? = nil)
+        init(usingColumns columns: [String]? = nil)
         {
-            tableName = T().tableName
-            columns = cols
+            query = "SELECT "
+            if let columnList = columns
+            {
+                query += " ("
+                for column in columnList
+                {
+                    query += "\(column), "
+                }
+                query.removeLast(2)
+            }
+            else
+            {
+                query += "*"
+            }
+            query += " FROM \(T().tableName);"
         }
     }
     
