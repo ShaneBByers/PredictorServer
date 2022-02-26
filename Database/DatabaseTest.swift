@@ -1,8 +1,8 @@
 //
-//  Selectable.swift
+//  DatabaseTest.swift
 //  PredictorServer
 //
-//  Created by Shane Byers on 2/19/22.
+//  Created by Shane Byers on 2/26/22.
 //
 
 import Foundation
@@ -24,6 +24,40 @@ struct TestTable : DatabaseTable
             testInt = Int(testIntString)
         }
         testString = try? container?.decode(String.self, forKey: .testString)
+    }
+    
+    static func RunTest()
+    {
+        var insert1 = TestTable()
+        insert1.testInt = 1
+        insert1.testString = "First"
+        
+        var insert2 = TestTable()
+        insert2.testInt = 2
+        insert2.testString = "Second"
+        
+        var insertTransaction = TransactionRequest()
+        insertTransaction.insert(TestTable.name, TestTable.columns(), TestTable.insertValues([insert1, insert2]))
+        
+        let _ = Database.execute(insertTransaction)
+        
+        var update1 = TestTable()
+        update1.testInt = 3
+        
+        var updateTransaction = TransactionRequest()
+        updateTransaction.update(TestTable.name, update1.updateValues([.testInt]), [TestTable.where(.testInt, .equals, 1)])
+        
+        let _ = Database.execute(updateTransaction)
+        
+        var deleteTransaction = TransactionRequest()
+        deleteTransaction.delete(TestTable.name, [TestTable.where(.testInt, .equals, 2)])
+        
+        let _ = Database.execute(deleteTransaction)
+        
+        if let selectTables: [TestTable] = Database.select(TestTable.where(.testInt, .equals, 3), TestTable.columns([.testString]))
+        {
+            print("\(selectTables.count)")
+        }
     }
     
     func updateValues(_ columns: [TestTableColumn]) -> ColumnNameToValueMap
