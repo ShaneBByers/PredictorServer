@@ -27,13 +27,9 @@
 		43BF769827C1C8D400CD9874 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF769727C1C8D400CD9874 /* Database.swift */; };
 		43BF769E27C1D94F00CD9874 /* TestTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF769D27C1D94F00CD9874 /* TestTable.swift */; };
 		43BF76AE27C3F1F100CD9874 /* DatabaseTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76AD27C3F1F100CD9874 /* DatabaseTable.swift */; };
-		43BF76B027C3F55100CD9874 /* WhereOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76AF27C3F55100CD9874 /* WhereOperation.swift */; };
-		43BF76B227C3F56B00CD9874 /* InsertRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76B127C3F56B00CD9874 /* InsertRequest.swift */; };
-		43BF76B427C3F59100CD9874 /* UpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76B327C3F59100CD9874 /* UpdateRequest.swift */; };
-		43BF76B627C3F59D00CD9874 /* DeleteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76B527C3F59D00CD9874 /* DeleteRequest.swift */; };
-		43BF76B827C3F5A900CD9874 /* SelectRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76B727C3F5A900CD9874 /* SelectRequest.swift */; };
-		43BF76BA27C3F5E200CD9874 /* DatabaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76B927C3F5E200CD9874 /* DatabaseRequest.swift */; };
-		43BF76BC27C3F60E00CD9874 /* DatabaseLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76BB27C3F60E00CD9874 /* DatabaseLogin.swift */; };
+		43BF76B027C3F55100CD9874 /* Where.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76AF27C3F55100CD9874 /* Where.swift */; };
+		43BF76BE27C5D7E500CD9874 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76BD27C5D7E500CD9874 /* Logger.swift */; };
+		43BF76C027CA86B500CD9874 /* TransactionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76BF27CA86B500CD9874 /* TransactionRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -70,13 +66,9 @@
 		43BF769727C1C8D400CD9874 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		43BF769D27C1D94F00CD9874 /* TestTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTable.swift; sourceTree = "<group>"; };
 		43BF76AD27C3F1F100CD9874 /* DatabaseTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseTable.swift; sourceTree = "<group>"; };
-		43BF76AF27C3F55100CD9874 /* WhereOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereOperation.swift; sourceTree = "<group>"; };
-		43BF76B127C3F56B00CD9874 /* InsertRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertRequest.swift; sourceTree = "<group>"; };
-		43BF76B327C3F59100CD9874 /* UpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateRequest.swift; sourceTree = "<group>"; };
-		43BF76B527C3F59D00CD9874 /* DeleteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteRequest.swift; sourceTree = "<group>"; };
-		43BF76B727C3F5A900CD9874 /* SelectRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRequest.swift; sourceTree = "<group>"; };
-		43BF76B927C3F5E200CD9874 /* DatabaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseRequest.swift; sourceTree = "<group>"; };
-		43BF76BB27C3F60E00CD9874 /* DatabaseLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseLogin.swift; sourceTree = "<group>"; };
+		43BF76AF27C3F55100CD9874 /* Where.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Where.swift; sourceTree = "<group>"; };
+		43BF76BD27C5D7E500CD9874 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		43BF76BF27CA86B500CD9874 /* TransactionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +90,7 @@
 				43B1ECB1277C3633003BFE5D /* IdentityData */,
 				43B1ECB0277C3619003BFE5D /* GameResults */,
 				43B1ECAF277C35F7003BFE5D /* Enums */,
+				43BF76BD27C5D7E500CD9874 /* Logger.swift */,
 				43BF769D27C1D94F00CD9874 /* TestTable.swift */,
 				43B1EC76277C30D5003BFE5D /* main.swift */,
 				43B1EC74277C30D5003BFE5D /* Products */,
@@ -161,13 +154,8 @@
 			children = (
 				43BF769727C1C8D400CD9874 /* Database.swift */,
 				43BF76AD27C3F1F100CD9874 /* DatabaseTable.swift */,
-				43BF76AF27C3F55100CD9874 /* WhereOperation.swift */,
-				43BF76B127C3F56B00CD9874 /* InsertRequest.swift */,
-				43BF76B327C3F59100CD9874 /* UpdateRequest.swift */,
-				43BF76B527C3F59D00CD9874 /* DeleteRequest.swift */,
-				43BF76B727C3F5A900CD9874 /* SelectRequest.swift */,
-				43BF76B927C3F5E200CD9874 /* DatabaseRequest.swift */,
-				43BF76BB27C3F60E00CD9874 /* DatabaseLogin.swift */,
+				43BF76AF27C3F55100CD9874 /* Where.swift */,
+				43BF76BF27CA86B500CD9874 /* TransactionRequest.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -252,32 +240,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				43B1ECA7277C35E0003BFE5D /* Season.swift in Sources */,
-				43BF76BA27C3F5E200CD9874 /* DatabaseRequest.swift in Sources */,
 				43BF76AE27C3F1F100CD9874 /* DatabaseTable.swift in Sources */,
-				43BF76B227C3F56B00CD9874 /* InsertRequest.swift in Sources */,
-				43BF76B427C3F59100CD9874 /* UpdateRequest.swift in Sources */,
 				43BF769627C1B7C600CD9874 /* Constants.swift in Sources */,
 				43B1ECAB277C35E0003BFE5D /* Venue.swift in Sources */,
 				43B1ECAE277C35E0003BFE5D /* Handedness.swift in Sources */,
 				43B1ECA9277C35E0003BFE5D /* Game.swift in Sources */,
-				43BF76BC27C3F60E00CD9874 /* DatabaseLogin.swift in Sources */,
 				43BF769827C1C8D400CD9874 /* Database.swift in Sources */,
+				43BF76BE27C5D7E500CD9874 /* Logger.swift in Sources */,
 				43B1ECA3277C35E0003BFE5D /* Time.swift in Sources */,
 				43B1ECA2277C35E0003BFE5D /* GoalieGameResult.swift in Sources */,
 				43B1ECA4277C35E0003BFE5D /* Division.swift in Sources */,
 				43B1ECA6277C35E0003BFE5D /* Conference.swift in Sources */,
 				43B1ECAC277C35E0003BFE5D /* Position.swift in Sources */,
 				43B1ECA8277C35E0003BFE5D /* Decision.swift in Sources */,
-				43BF76B827C3F5A900CD9874 /* SelectRequest.swift in Sources */,
 				43B1EC77277C30D5003BFE5D /* main.swift in Sources */,
 				43BF769227C1B5EE00CD9874 /* ConstantsTemplate.swift in Sources */,
 				43BF769E27C1D94F00CD9874 /* TestTable.swift in Sources */,
-				43BF76B627C3F59D00CD9874 /* DeleteRequest.swift in Sources */,
 				43B1ECAA277C35E0003BFE5D /* Team.swift in Sources */,
 				43B1ECA5277C35E0003BFE5D /* Player.swift in Sources */,
 				43B1ECAD277C35E0003BFE5D /* SkaterGameResult.swift in Sources */,
 				43B1ECA1277C35E0003BFE5D /* TeamGameResult.swift in Sources */,
-				43BF76B027C3F55100CD9874 /* WhereOperation.swift in Sources */,
+				43BF76B027C3F55100CD9874 /* Where.swift in Sources */,
+				43BF76C027CA86B500CD9874 /* TransactionRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

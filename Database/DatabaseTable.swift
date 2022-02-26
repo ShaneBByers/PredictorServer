@@ -9,5 +9,9 @@ import Foundation
 
 protocol DatabaseTable: Codable
 {
-    static var tableName: String { get }
+    static var name: String { get }
+    
+    init()
+    
+    init(from decoder: Decoder)
 }

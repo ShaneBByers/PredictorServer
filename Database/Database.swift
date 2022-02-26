@@ -6,10 +6,10 @@
 //
 
 import Foundation
+import OSLog
 
-typealias ColumnsMap = [(name: String, rawValue: String)]
-
-typealias WhereClause = (columnName: String, operation: WhereOperation, value: Any?)
+typealias ColumnNames = [String]
+typealias ColumnNameToValueMap = [String:Encodable?]
 
 struct Database
 {
@@ -17,27 +17,24 @@ struct Database
     private static let transactionPHP = "transaction.php"
     private static let selectPHP = "select.php"
     
-    static func insert<T: DatabaseTable>(_ insertables: [T], _ columns: ColumnsMap) -> Int?
+    private static let logger = Logger(subsystem: Logger.id, category: Logger.Category.database.rawValue)
+    
+    static func execute(_ transactionRequest: TransactionRequest) -> Int?
     {
-        return getResponse(from: transactionPHP, using: InsertRequest(insertables, columns))
+        return getResponse(from: transactionPHP, using: DatabaseRequest(transactionRequest.queryList))
     }
     
-    static func update<T: DatabaseTable>(_ updatable: T, _ columns: ColumnsMap, _ whereClauses: [WhereClause]) -> Int?
+    static func select<T: DatabaseTable>(_ whereClause: Where, _ columns: ColumnNames? = nil) -> [T]?
     {
-        return getResponse(from: transactionPHP, using: UpdateRequest(updatable, columns, whereClauses))
+        return select([whereClause], columns)
     }
     
-    static func delete(from tableName: String, _ whereClauses: [WhereClause]) -> Int?
+    static func select<T: DatabaseTable>(_ whereClauses: [Where]? = nil, _ columns: ColumnNames? = nil) -> [T]?
     {
-        return getResponse(from: transactionPHP, using: DeleteRequest(tableName, whereClauses))
+        return getResponse(from: selectPHP, using: DatabaseRequest(SelectRequest(T.name, whereClauses, columns).query))
     }
     
-    static func select<T: DatabaseTable>(_ whereClauses: [WhereClause]? = nil, _ columns: ColumnsMap? = nil) -> [T]?
-    {
-        return getResponse(from: selectPHP, using: SelectRequest<T>(whereClauses: whereClauses, columns: columns))
-    }
-    
-    private static func getResponse<Request: DatabaseRequest, Return: Decodable>(from filename: String, using request: Request) -> Return?
+    private static func getResponse<T: Decodable>(from filename: String, using request: DatabaseRequest) -> T?
     {
         if let url = URL(string: baseUrl + filename)
         {
@@ -47,7 +44,7 @@ struct Database
                 if let jsonResponse = executeRequest(url, with: body)
                 {
                     let decoder = JSONDecoder()
-                    if let decoded = try? decoder.decode(Return.self, from: jsonResponse)
+                    if let decoded = try? decoder.decode(T.self, from: jsonResponse)
                     {
                         return decoded
                     }
@@ -72,5 +69,70 @@ struct Database
         }.resume()
         semaphore.wait()
         return jsonResponse
+    }
+    
+    private struct DatabaseRequest : Encodable
+    {
+        let databaseLogin = DatabaseLogin()
+        var queryList: [String]?
+        var query: String?
+        
+        init (_ queries: [String])
+        {
+            logger.debug("START TRANSACTION")
+            for query in queries
+            {
+                logger.debug("\(query)")
+            }
+            logger.debug("COMMIT")
+            queryList = queries
+        }
+        
+        init (_ q: String)
+        {
+            logger.debug("\(q)")
+            query = q
+        }
+        
+        struct DatabaseLogin : Encodable
+        {
+            let serverName = ConstantStrings.DB_SERVER_NAME.rawValue
+            let username = ConstantStrings.DB_USERNAME.rawValue
+            let password = ConstantStrings.DB_PASSWORD.rawValue
+            let databaseName = ConstantStrings.DB_DATABASE_NAME.rawValue
+        }
+    }
+    
+    private struct SelectRequest : Encodable
+    {
+        var query: String
+        
+        init(_ tableName: String, _ whereClauses: [Where]? = nil, _ columns: ColumnNames? = nil)
+        {
+            query = "SELECT "
+            if let columns = columns
+            {
+                query += "("
+                for column in columns
+                {
+                    query += "\(column), "
+                }
+                query.removeLast(2)
+                query += ")"
+            }
+            else
+            {
+                query += "*"
+            }
+            query += " FROM \(tableName)"
+            if let whereClauses = whereClauses {
+                query += " WHERE "
+                for whereClause in whereClauses {
+                    query += "\(whereClause.column) \(whereClause.operation) \(whereClause.value) AND "
+                }
+                query.removeLast(5);
+            }
+            query += ";"
+        }
     }
 }
