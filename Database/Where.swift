@@ -13,9 +13,9 @@ struct Where
     var operation: String
     var value: String
     
-    init<T: Comparable>(_ columnString: String, _ whereOperation: WhereOperation, _ comparableValue: T)
+    init<EnumT: RawRepresentable, ValueT: Comparable>(_ columnEnum: EnumT, _ whereOperation: WhereOperation, _ comparableValue: ValueT) where EnumT.RawValue == String
     {
-        column = columnString
+        column = columnEnum.rawValue
         operation = whereOperation.rawValue
         switch comparableValue
         {

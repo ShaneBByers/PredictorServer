@@ -68,7 +68,7 @@ struct DatabaseTeam : DatabaseTable
     private static func getColumnNameToValueMap(_ table: DatabaseTeam, _ columns: [TeamColumn]) -> ColumnNameToValueMap
     {
         var map: ColumnNameToValueMap = [:]
-        for column in TeamColumn.allCases {
+        for column in columns {
             switch column
             {
                 case .id: map[column.rawValue] = table.id
@@ -86,11 +86,6 @@ struct DatabaseTeam : DatabaseTable
     static func columns(_ columns: [TeamColumn] = TeamColumn.allCases) -> ColumnNames
     {
         return columns.map { $0.rawValue }
-    }
-    
-    static func `where`<T: Comparable>(_ column: TeamColumn, _ operation: Where.WhereOperation, _ value: T) -> Where
-    {
-        return Where(column.rawValue, operation, value)
     }
     
     enum TeamColumn: String, CodingKey, CaseIterable

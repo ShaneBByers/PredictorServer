@@ -44,20 +44,20 @@ struct TestTable : DatabaseTable
         var update1 = TestTable()
         update1.testInt = 3
         
-        var updateTransaction = TransactionRequest()
-        updateTransaction.update(TestTable.tableName, update1.updateValues([.testInt]), [TestTable.where(.testInt, .equals, 1)])
-        
-        let _ = Database.execute(updateTransaction)
-        
-        var deleteTransaction = TransactionRequest()
-        deleteTransaction.delete(TestTable.tableName, [TestTable.where(.testInt, .equals, 2)])
-        
-        let _ = Database.execute(deleteTransaction)
-        
-        if let selectTables: [TestTable] = Database.select(TestTable.where(.testInt, .equals, 3), TestTable.columns([.testString]))
-        {
-            print("\(selectTables.count)")
-        }
+//        var updateTransaction = TransactionRequest()
+//        updateTransaction.update(TestTable.tableName, update1.updateValues([.testInt]), [TestTable.where(.testInt, .equals, 1)])
+//
+//        let _ = Database.execute(updateTransaction)
+//
+//        var deleteTransaction = TransactionRequest()
+//        deleteTransaction.delete(TestTable.tableName, [TestTable.where(.testInt, .equals, 2)])
+//
+//        let _ = Database.execute(deleteTransaction)
+//
+//        if let selectTables: [TestTable] = Database.select(TestTable.where(.testInt, .equals, 3), TestTable.columns([.testString]))
+//        {
+//            print("\(selectTables.count)")
+//        }
     }
     
     func updateValues(_ columns: [TestTableColumn]) -> ColumnNameToValueMap
@@ -92,11 +92,6 @@ struct TestTable : DatabaseTable
     static func columns(_ columns: [TestTableColumn] = TestTableColumn.allCases) -> ColumnNames
     {
         return columns.map { $0.rawValue }
-    }
-    
-    static func `where`<T: Comparable>(_ column: TestTableColumn, _ operation: Where.WhereOperation, _ value: T) -> Where
-    {
-        return Where(column.rawValue, operation, value)
     }
     
     enum TestTableColumn: String, CodingKey, CaseIterable

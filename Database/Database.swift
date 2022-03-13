@@ -13,8 +13,6 @@ typealias ColumnNameToValueMap = [String:Encodable?]
 
 struct Database
 {
-    public static let databaseDecoder = CodingUserInfoKey(rawValue: "databaseDecoder")!
-    
     private static let baseUrl = "http://www.nhl-predictor.com/"
     private static let transactionPHP = "transaction.php"
     private static let selectPHP = "select.php"
@@ -24,6 +22,11 @@ struct Database
     static func execute(_ transactionRequest: TransactionRequest) -> Int?
     {
         return getResponse(from: transactionPHP, using: DatabaseRequest(transactionRequest.queryList))
+    }
+    
+    static func select<T: DatabaseTable>(_ table: T.Type) -> [T]?
+    {
+        return getResponse(from: selectPHP, using: DatabaseRequest(SelectRequest(T.tableName).query))
     }
     
     static func select<T: DatabaseTable>(_ whereClause: Where, _ columns: ColumnNames? = nil) -> [T]?
@@ -46,7 +49,6 @@ struct Database
                 if let jsonResponse = executePostRequest(url, with: body)
                 {
                     let decoder = JSONDecoder()
-                    decoder.userInfo[databaseDecoder] = true
                     if let decoded = try? decoder.decode(T.self, from: jsonResponse)
                     {
                         return decoded
