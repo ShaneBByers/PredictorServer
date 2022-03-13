@@ -9,7 +9,7 @@ import Foundation
 
 struct TestTable : DatabaseTable
 {
-    static var name = "TEST_TABLE"
+    static var tableName = "TEST_TABLE"
     
     var testInt: Int?
     var testString: String?
@@ -37,7 +37,7 @@ struct TestTable : DatabaseTable
         insert2.testString = "Second"
         
         var insertTransaction = TransactionRequest()
-        insertTransaction.insert(TestTable.name, TestTable.columns(), TestTable.insertValues([insert1, insert2]))
+        insertTransaction.insert(TestTable.tableName, TestTable.columns(), TestTable.insertValues([insert1, insert2]))
         
         let _ = Database.execute(insertTransaction)
         
@@ -45,12 +45,12 @@ struct TestTable : DatabaseTable
         update1.testInt = 3
         
         var updateTransaction = TransactionRequest()
-        updateTransaction.update(TestTable.name, update1.updateValues([.testInt]), [TestTable.where(.testInt, .equals, 1)])
+        updateTransaction.update(TestTable.tableName, update1.updateValues([.testInt]), [TestTable.where(.testInt, .equals, 1)])
         
         let _ = Database.execute(updateTransaction)
         
         var deleteTransaction = TransactionRequest()
-        deleteTransaction.delete(TestTable.name, [TestTable.where(.testInt, .equals, 2)])
+        deleteTransaction.delete(TestTable.tableName, [TestTable.where(.testInt, .equals, 2)])
         
         let _ = Database.execute(deleteTransaction)
         

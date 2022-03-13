@@ -13,7 +13,8 @@ extension Logger
     static let id = "com.predictor.server"
     enum Category: String
     {
-        case testing
         case database
+        case webRequest
+        case testing
     }
 }

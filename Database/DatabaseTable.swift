@@ -9,7 +9,7 @@ import Foundation
 
 protocol DatabaseTable: Codable
 {
-    static var name: String { get }
+    static var tableName: String { get }
     
     init()
     

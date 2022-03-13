@@ -10,3 +10,20 @@ import OSLog
 
 let logger = Logger(subsystem: Logger.id, category: Logger.Category.testing.rawValue)
 
+if let webTeamList = WebRequest.getData(WebTeamList.self)
+{
+    if let webTeams = webTeamList.teams
+    {
+        var databaseTeams: [DatabaseTeam] = []
+        for webTeam in webTeams
+        {
+            databaseTeams.append(DatabaseTeam(webTeam))
+        }
+        var transaction = TransactionRequest()
+        transaction.insert(DatabaseTeam.tableName, DatabaseTeam.columns(), DatabaseTeam.insertValues(databaseTeams))
+        if let rowCount = Database.execute(transaction)
+        {
+            logger.info("\(rowCount)")
+        }
+    }
+}

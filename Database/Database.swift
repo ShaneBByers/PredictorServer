@@ -13,6 +13,8 @@ typealias ColumnNameToValueMap = [String:Encodable?]
 
 struct Database
 {
+    public static let databaseDecoder = CodingUserInfoKey(rawValue: "databaseDecoder")!
+    
     private static let baseUrl = "http://www.nhl-predictor.com/"
     private static let transactionPHP = "transaction.php"
     private static let selectPHP = "select.php"
@@ -31,7 +33,7 @@ struct Database
     
     static func select<T: DatabaseTable>(_ whereClauses: [Where]? = nil, _ columns: ColumnNames? = nil) -> [T]?
     {
-        return getResponse(from: selectPHP, using: DatabaseRequest(SelectRequest(T.name, whereClauses, columns).query))
+        return getResponse(from: selectPHP, using: DatabaseRequest(SelectRequest(T.tableName, whereClauses, columns).query))
     }
     
     private static func getResponse<T: Decodable>(from filename: String, using request: DatabaseRequest) -> T?
@@ -41,21 +43,21 @@ struct Database
             let encoder = JSONEncoder()
             if let body = try? encoder.encode(request)
             {
-                if let jsonResponse = executeRequest(url, with: body)
+                if let jsonResponse = executePostRequest(url, with: body)
                 {
                     let decoder = JSONDecoder()
+                    decoder.userInfo[databaseDecoder] = true
                     if let decoded = try? decoder.decode(T.self, from: jsonResponse)
                     {
                         return decoded
                     }
-                    print(String(data: jsonResponse, encoding: .utf8)!)
                 }
             }
         }
         return nil
     }
     
-    private static func executeRequest(_ url: URL, with body: Data) -> Data?
+    private static func executePostRequest(_ url: URL, with body: Data) -> Data?
     {
         var jsonResponse: Data? = nil
         var request = URLRequest(url: url)
