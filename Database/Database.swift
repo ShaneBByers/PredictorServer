@@ -18,9 +18,9 @@ struct Database
     
     private static let logger = Logger(subsystem: Logger.id, category: Logger.Category.database.rawValue)
     
-    static func execute(_ transactionRequest: TransactionRequest) -> Int?
+    static func execute(_ transaction: Transaction) -> Int?
     {
-        return getResponse(from: transactionPHP, using: DatabaseRequest(transactionRequest.queryList))
+        return getResponse(from: transactionPHP, using: DatabaseRequest(transaction.queryList))
     }
     
     static func select<TableT: DatabaseTable>(_ table: TableT.Type, _ whereClauses: [Where]? = nil) -> [TableT]?

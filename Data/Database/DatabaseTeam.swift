@@ -25,19 +25,13 @@ struct DatabaseTeam : DatabaseTable
     
     init(from decoder: Decoder) {
         let container = try? decoder.container(keyedBy: TeamColumn.self)
-        if let idString = try? container?.decode(String.self, forKey: .id)
-        {
-            id = Int(idString)
-        }
-        if let divisionIdString = try? container?.decode(String.self, forKey: .divisionId)
-        {
-            divisionId = Int(divisionIdString)
-        }
-        fullName = try? container?.decode(String.self, forKey: .fullName)
-        locationName = try? container?.decode(String.self, forKey: .locationName)
-        nickname = try? container?.decode(String.self, forKey: .nickname)
-        abbreviation = try? container?.decode(String.self, forKey: .abbreviation)
-        timezone = try? container?.decode(String.self, forKey: .timezone)
+        id = decodeInt(container, for: .id)
+        divisionId = decodeInt(container, for: .divisionId)
+        fullName = decodeString(container, for: .fullName)
+        locationName = decodeString(container, for: .locationName)
+        nickname = decodeString(container, for: .nickname)
+        abbreviation = decodeString(container, for: .abbreviation)
+        timezone = decodeString(container, for: .timezone)
     }
     
     init(_ webTeam: WebTeam)
@@ -51,43 +45,20 @@ struct DatabaseTeam : DatabaseTable
         timezone = webTeam.venue?.timeZone?.tz
     }
     
-    func updateValues(_ columns: [TeamColumn]) -> ColumnNameToValueMap
-    {
-        return DatabaseTeam.getColumnNameToValueMap(self, columns)
-    }
-    
-    static func insertColumns() -> [TeamColumn]
+    static func editableColumns() -> [TeamColumn]
     {
         return TeamColumn.allCases
     }
     
-    static func insertValues(_ tables: [DatabaseTeam]) -> [ColumnNameToValueMap]
+    func values() -> [TeamColumn:Encodable]
     {
-        var returnList: [ColumnNameToValueMap] = []
-        for table in tables
-        {
-            let map = getColumnNameToValueMap(table, TeamColumn.allCases)
-            returnList.append(map)
-        }
-        return returnList
-    }
-    
-    private static func getColumnNameToValueMap(_ table: DatabaseTeam, _ columns: [TeamColumn]) -> ColumnNameToValueMap
-    {
-        var map: ColumnNameToValueMap = [:]
-        for column in columns {
-            switch column
-            {
-                case .id: map[column.rawValue] = table.id
-                case .divisionId: map[column.rawValue] = table.divisionId
-                case .fullName: map[column.rawValue] = table.fullName
-                case .locationName: map[column.rawValue] = table.locationName
-                case .nickname: map[column.rawValue] = table.nickname
-                case .abbreviation: map[column.rawValue] = table.abbreviation
-                case .timezone: map[column.rawValue] = table.timezone
-            }
-        }
-        return map
+        return [.id: id,
+                .divisionId: divisionId,
+                .fullName: fullName,
+                .locationName: locationName,
+                .nickname: nickname,
+                .abbreviation: abbreviation,
+                .timezone: timezone]
     }
     
     enum TeamColumn: String, DatabaseColumn
