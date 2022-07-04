@@ -9,5 +9,5 @@ import Foundation
 
 protocol WebData: Decodable
 {
-    var path: String { get }
+    static var path: String { get }
 }

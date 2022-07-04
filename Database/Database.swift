@@ -47,20 +47,26 @@ struct Database
         return getResponse(from: selectPHP, using: select)
     }
     
-    static func select<TableT: DatabaseTable>(_ table: TableT.Type, where whereClause: Where? = nil) -> [TableT]?
+    static func select<TableT: DatabaseTable>(_ table: TableT.Type) -> [TableT]?
+    {
+        return select(Select(table))
+    }
+    
+    static func select<TableT: DatabaseTable>(_ table: TableT.Type, where whereClause: Where) -> [TableT]?
     {
         return select(Select(table, where: whereClause))
     }
     
-    static func select<TableT: DatabaseTable>(_ table: TableT.Type, including cols: [TableT.ColumnType]? = nil, where whereClauses: [Where]? = nil) -> [TableT]?
+    static func select<TableT: DatabaseTable>(_ table: TableT.Type, on cols: [TableT.ColumnType], where whereClauses: [Where]) -> [TableT]?
     {
-        return select(Select(table, including: cols, where: whereClauses))
+        return select(Select(table, on: cols, where: whereClauses))
     }
     
     private static func getResponse<RequestT: DatabaseRequest, ReturnT: Decodable>(from filename: String, using request: RequestT) -> ReturnT?
     {
         if let url = URL(string: baseUrl + filename)
         {
+            logger.debug("\(request.queryList)")
             let encoder = JSONEncoder()
             if let body = try? encoder.encode(request)
             {

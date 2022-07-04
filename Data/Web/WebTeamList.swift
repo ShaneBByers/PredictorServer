@@ -9,7 +9,7 @@ import Foundation
 
 struct WebTeamList: WebData
 {
-    var path = "teams"
+    static var path = "teams"
     
     var teams: [WebTeam]?
 }

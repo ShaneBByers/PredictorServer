@@ -9,7 +9,7 @@ import Foundation
 
 struct WebTeam: WebData
 {
-    var path = ""
+    static var path = ""
     
     var id: Int?
     var division: Division?

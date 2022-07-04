@@ -10,25 +10,22 @@ import OSLog
 
 let logger = Logger(subsystem: Logger.id, category: Logger.Category.testing.rawValue)
 
-//if let webTeamList = WebRequest.getData(WebTeamList.self)
+//getTeams()
+
+//if let teams = Database.select(DatabaseTeam.self, where: Where(DatabaseTeam.self, .divisionId, ==, 18))
 //{
-//    if let webTeams = webTeamList.teams
-//    {
-//        var databaseTeams: [DatabaseTeam] = []
-//        for webTeam in webTeams
-//        {
-//            databaseTeams.append(DatabaseTeam(webTeam))
-//        }
-//        var transaction = TransactionRequest()
-//        transaction.insert(DatabaseTeam.tableName, DatabaseTeam.columns(), DatabaseTeam.insertValues(databaseTeams))
-//        if let rowCount = Database.execute(transaction)
-//        {
-//            logger.info("\(rowCount)")
-//        }
-//    }
+//    logger.info("\(teams.count)")
 //}
 
-if let teams = Database.select(DatabaseTeam.self)
-{
-    logger.info("\(teams[0].fullName!)")
-}
+//var team = DatabaseTeam()
+//team.fullName = "TESTING"
+//
+//if let count = Database.update(using: team, on: [.fullName], where: [Where(DatabaseTeam.self, .divisionId, ==, 18)])
+//{
+//    logger.info("\(count)")
+//}
+
+//if let count = Database.delete(DatabaseTeam.self, where: [Where(DatabaseTeam.self, .divisionId, >=, 0)])
+//{
+//    logger.info("\(count)")
+//}

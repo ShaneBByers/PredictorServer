@@ -13,6 +13,7 @@ func getTeams()
     {
         if let webTeams = webTeamList.teams
         {
+            logger.info("\(webTeams.count)")
             var databaseTeams: [DatabaseTeam] = []
             for webTeam in webTeams
             {

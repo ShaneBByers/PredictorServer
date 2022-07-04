@@ -15,8 +15,9 @@ struct WebRequest
     
     public static func getData<T: WebData>(_ webData: T) -> T?
     {
-        if let url = URL(string: baseUrl + webData.path)
+        if let url = URL(string: baseUrl + T.path)
         {
+            logger.info("\(url)")
             if let jsonResponse = executeGetRequest(url)
             {
                 let decoder = JSONDecoder()

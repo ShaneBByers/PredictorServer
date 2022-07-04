@@ -12,18 +12,17 @@ struct Select: DatabaseRequest
     var databaseLogin = DatabaseLogin()
     var queryList: [String] = []
     
-    init<TableT: DatabaseTable>(_ table: TableT.Type, where whereClause: Where? = nil)
+    init<TableT: DatabaseTable>(_ table: TableT.Type)
     {
-        if let whereClause = whereClause {
-            self.init(table, where: [whereClause])
-        }
-        else
-        {
-            self.init(table)
-        }
+        self.init(table, on: nil, where: nil)
     }
     
-    init<TableT: DatabaseTable>(_ table: TableT.Type, including cols: [TableT.ColumnType]? = nil, where whereClauses: [Where]? = nil)
+    init<TableT: DatabaseTable>(_ table: TableT.Type, where whereClause: Where)
+    {
+        self.init(table, on: nil, where: [whereClause])
+    }
+    
+    init<TableT: DatabaseTable>(_ table: TableT.Type, on cols: [TableT.ColumnType]?, where whereClauses: [Where]?)
     {
         var query = "SELECT "
         if let cols = cols
@@ -40,11 +39,13 @@ struct Select: DatabaseRequest
         {
             query += "*"
         }
-        query += " FROM \(table.tableName)"
+        query += " FROM \(TableT.tableName)"
         if let whereClauses = whereClauses
         {
+            query += " "
             query += Select.getWhereString(whereClauses)
         }
         query += ";"
+        queryList.append(query)
     }
 }

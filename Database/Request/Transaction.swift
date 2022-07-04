@@ -55,7 +55,7 @@ struct Transaction: DatabaseRequest
             if let encodableValue = valueDict[col]
             {
                 let databaseString = Transaction.getDatabaseString(encodableValue)
-                query += "\(col.rawValue) = \(databaseString)"
+                query += "\(col.rawValue) = \(databaseString), "
             }
             query.removeLast(2)
             query += " "
