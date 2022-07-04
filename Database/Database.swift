@@ -16,29 +16,29 @@ struct Database
     
     private static let logger = Logger(subsystem: Logger.id, category: Logger.Category.database.rawValue)
     
-    static func execute(_ transaction: Transaction) -> Int?
+    @discardableResult static func execute(_ transaction: Transaction) -> Int?
     {
         return getResponse(from: transactionPHP, using: transaction)
     }
     
-    static func insert<TableT: DatabaseTable>(_ rows: [TableT]) -> Int?
+    @discardableResult static func insert<TableT: DatabaseTable>(values rows: [TableT]) -> Int?
     {
         var transaction = Transaction()
-        transaction.insert(rows)
+        transaction.insert(values: rows)
         return execute(transaction)
     }
     
-    static func update<TableT: DatabaseTable>(using row: TableT, on cols: [TableT.ColumnType], where whereClauses: [Where]) -> Int?
+    @discardableResult static func update<TableT: DatabaseTable>(set row: TableT, on cols: [TableT.ColumnType], where whereClauses: [Where]) -> Int?
     {
         var transaction = Transaction()
-        transaction.update(using: row, on: cols, where: whereClauses)
+        transaction.update(set: row, on: cols, where: whereClauses)
         return execute(transaction)
     }
     
-    static func delete<TableT: DatabaseTable>(_ table: TableT.Type, where whereClauses: [Where]) -> Int?
+    @discardableResult static func delete<TableT: DatabaseTable>(from table: TableT.Type, where whereClauses: [Where]) -> Int?
     {
         var transaction = Transaction()
-        transaction.delete(table, where: whereClauses)
+        transaction.delete(from: table, where: whereClauses)
         return execute(transaction)
     }
     

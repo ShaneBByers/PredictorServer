@@ -12,7 +12,7 @@ struct Transaction: DatabaseRequest
     var databaseLogin = DatabaseLogin()
     var queryList: [String] = []
     
-    mutating public func insert<TableT: DatabaseTable>(_ rows: [TableT])
+    mutating public func insert<TableT: DatabaseTable>(values rows: [TableT])
     {
         if !rows.isEmpty
         {
@@ -46,7 +46,7 @@ struct Transaction: DatabaseRequest
         }
     }
     
-    mutating public func update<TableT: DatabaseTable>(using row: TableT, on cols: [TableT.ColumnType], where whereClauses: [Where])
+    mutating public func update<TableT: DatabaseTable>(set row: TableT, on cols: [TableT.ColumnType], where whereClauses: [Where])
     {
         var query = "UPDATE \(TableT.tableName) SET "
         let valueDict = row.values()
@@ -65,7 +65,7 @@ struct Transaction: DatabaseRequest
         }
     }
     
-    mutating public func delete<TableT: DatabaseTable>(_ table: TableT.Type, where whereClauses: [Where])
+    mutating public func delete<TableT: DatabaseTable>(from table: TableT.Type, where whereClauses: [Where])
     {
         var query = "DELETE FROM \(table.tableName) "
         query += Transaction.getWhereString(whereClauses)

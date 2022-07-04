@@ -25,16 +25,16 @@ struct DatabaseTeam : DatabaseTable
     
     init(from decoder: Decoder) {
         let container = try? decoder.container(keyedBy: TeamColumn.self)
-        id = decodeInt(container, for: .id)
-        divisionId = decodeInt(container, for: .divisionId)
-        fullName = decodeString(container, for: .fullName)
-        locationName = decodeString(container, for: .locationName)
-        nickname = decodeString(container, for: .nickname)
-        abbreviation = decodeString(container, for: .abbreviation)
-        timezone = decodeString(container, for: .timezone)
+        id = decodeInt(from: container, for: .id)
+        divisionId = decodeInt(from: container, for: .divisionId)
+        fullName = decodeString(from: container, for: .fullName)
+        locationName = decodeString(from: container, for: .locationName)
+        nickname = decodeString(from: container, for: .nickname)
+        abbreviation = decodeString(from: container, for: .abbreviation)
+        timezone = decodeString(from: container, for: .timezone)
     }
     
-    init(_ webTeam: WebTeam)
+    init(from webTeam: WebTeam)
     {
         id = webTeam.id
         divisionId = webTeam.division?.id

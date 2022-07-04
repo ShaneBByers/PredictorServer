@@ -33,6 +33,10 @@ extension DatabaseRequest
                 return "\(intValue)"
             case let stringValue as String:
                 return "'\(stringValue)'"
+            case let dateValue as Date:
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                return "'\(dateFormatter.string(from: dateValue))'"
             default:
                 return "NULL"
         }

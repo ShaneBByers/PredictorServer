@@ -26,12 +26,12 @@ protocol DatabaseTable: Codable
 
 extension DatabaseTable
 {
-    func decodeString(_ container: KeyedDecodingContainer<ColumnType>?, for col: ColumnType) -> String?
+    func decodeString(from container: KeyedDecodingContainer<ColumnType>?, for col: ColumnType) -> String?
     {
         return try? container?.decode(String.self, forKey: col)
     }
     
-    func decodeInt(_ container: KeyedDecodingContainer<ColumnType>?, for col: ColumnType) -> Int?
+    func decodeInt(from container: KeyedDecodingContainer<ColumnType>?, for col: ColumnType) -> Int?
     {
         var returnInt: Int?
         if let decodedString = try? container?.decode(String.self, forKey: col)
@@ -40,5 +40,16 @@ extension DatabaseTable
         }
         
         return returnInt
+    }
+    
+    func decodeDate(from container: KeyedDecodingContainer<ColumnType>?, for col: ColumnType) -> Date?
+    {
+        var returnDate: Date?
+        if let decodedString = try? container?.decode(String.self, forKey: col)
+        {
+            returnDate = ISO8601DateFormatter().date(from: decodedString)
+        }
+        
+        return returnDate
     }
 }

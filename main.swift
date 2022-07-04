@@ -10,22 +10,10 @@ import OSLog
 
 let logger = Logger(subsystem: Logger.id, category: Logger.Category.testing.rawValue)
 
-//getTeams()
+let setup = Setup()
 
-//if let teams = Database.select(DatabaseTeam.self, where: Where(DatabaseTeam.self, .divisionId, ==, 18))
-//{
-//    logger.info("\(teams.count)")
-//}
+setup.setupSeasons()
 
-//var team = DatabaseTeam()
-//team.fullName = "TESTING"
-//
-//if let count = Database.update(using: team, on: [.fullName], where: [Where(DatabaseTeam.self, .divisionId, ==, 18)])
-//{
-//    logger.info("\(count)")
-//}
+let delete = Delete()
 
-//if let count = Database.delete(DatabaseTeam.self, where: [Where(DatabaseTeam.self, .divisionId, >=, 0)])
-//{
-//    logger.info("\(count)")
-//}
+//delete.deleteSeasons()

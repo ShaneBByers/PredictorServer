@@ -7,10 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		434FA933287264D400FEB0F2 /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA932287264D400FEB0F2 /* Initialization.swift */; };
+		434FA933287264D400FEB0F2 /* Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA932287264D400FEB0F2 /* Setup.swift */; };
 		434FA93928729B7F00FEB0F2 /* DatabaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA93828729B7F00FEB0F2 /* DatabaseRequest.swift */; };
 		434FA93B28729E0E00FEB0F2 /* Select.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA93A28729E0E00FEB0F2 /* Select.swift */; };
 		434FA93E28729FFB00FEB0F2 /* DatabaseLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA93D28729FFB00FEB0F2 /* DatabaseLogin.swift */; };
+		434FA940287354B200FEB0F2 /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA93F287354B200FEB0F2 /* Delete.swift */; };
+		434FA942287357F400FEB0F2 /* WebConference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA941287357F400FEB0F2 /* WebConference.swift */; };
+		434FA9442873584B00FEB0F2 /* WebConferenceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA9432873584B00FEB0F2 /* WebConferenceList.swift */; };
+		434FA946287358BD00FEB0F2 /* DatabaseConference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA945287358BD00FEB0F2 /* DatabaseConference.swift */; };
+		434FA94828735C5100FEB0F2 /* WebDivision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA94728735C5100FEB0F2 /* WebDivision.swift */; };
+		434FA94A28735CD200FEB0F2 /* WebDivisionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA94928735CD200FEB0F2 /* WebDivisionList.swift */; };
+		434FA94C28735D0500FEB0F2 /* DatabaseDivision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA94B28735D0500FEB0F2 /* DatabaseDivision.swift */; };
+		434FA94E287360C700FEB0F2 /* WebSeasonList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA94D287360C700FEB0F2 /* WebSeasonList.swift */; };
+		434FA950287360D900FEB0F2 /* WebSeason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA94F287360D900FEB0F2 /* WebSeason.swift */; };
+		434FA9522873617700FEB0F2 /* DatabaseSeason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA9512873617700FEB0F2 /* DatabaseSeason.swift */; };
 		4388EC6927CC406D004BB9E9 /* DatabaseTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388EC6827CC406D004BB9E9 /* DatabaseTeam.swift */; };
 		4388EC6E27DE59E0004BB9E9 /* WebTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388EC6D27DE59E0004BB9E9 /* WebTeam.swift */; };
 		4388EC7127DE5E5A004BB9E9 /* WebRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388EC7027DE5E5A004BB9E9 /* WebRequest.swift */; };
@@ -39,10 +49,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		434FA932287264D400FEB0F2 /* Initialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Initialization.swift; sourceTree = "<group>"; };
+		434FA932287264D400FEB0F2 /* Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setup.swift; sourceTree = "<group>"; };
 		434FA93828729B7F00FEB0F2 /* DatabaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseRequest.swift; sourceTree = "<group>"; };
 		434FA93A28729E0E00FEB0F2 /* Select.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Select.swift; sourceTree = "<group>"; };
 		434FA93D28729FFB00FEB0F2 /* DatabaseLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseLogin.swift; sourceTree = "<group>"; };
+		434FA93F287354B200FEB0F2 /* Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
+		434FA941287357F400FEB0F2 /* WebConference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebConference.swift; sourceTree = "<group>"; };
+		434FA9432873584B00FEB0F2 /* WebConferenceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebConferenceList.swift; sourceTree = "<group>"; };
+		434FA945287358BD00FEB0F2 /* DatabaseConference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseConference.swift; sourceTree = "<group>"; };
+		434FA94728735C5100FEB0F2 /* WebDivision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebDivision.swift; sourceTree = "<group>"; };
+		434FA94928735CD200FEB0F2 /* WebDivisionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebDivisionList.swift; sourceTree = "<group>"; };
+		434FA94B28735D0500FEB0F2 /* DatabaseDivision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseDivision.swift; sourceTree = "<group>"; };
+		434FA94D287360C700FEB0F2 /* WebSeasonList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSeasonList.swift; sourceTree = "<group>"; };
+		434FA94F287360D900FEB0F2 /* WebSeason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSeason.swift; sourceTree = "<group>"; };
+		434FA9512873617700FEB0F2 /* DatabaseSeason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseSeason.swift; sourceTree = "<group>"; };
 		4388EC6827CC406D004BB9E9 /* DatabaseTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseTeam.swift; sourceTree = "<group>"; };
 		4388EC6D27DE59E0004BB9E9 /* WebTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebTeam.swift; sourceTree = "<group>"; };
 		4388EC7027DE5E5A004BB9E9 /* WebRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRequest.swift; sourceTree = "<group>"; };
@@ -103,7 +123,10 @@
 		4388EC7227DE5FBC004BB9E9 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				434FA945287358BD00FEB0F2 /* DatabaseConference.swift */,
+				434FA94B28735D0500FEB0F2 /* DatabaseDivision.swift */,
 				4388EC6827CC406D004BB9E9 /* DatabaseTeam.swift */,
+				434FA9512873617700FEB0F2 /* DatabaseSeason.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -111,8 +134,14 @@
 		4388EC7327DE5FC5004BB9E9 /* Web */ = {
 			isa = PBXGroup;
 			children = (
+				434FA941287357F400FEB0F2 /* WebConference.swift */,
+				434FA9432873584B00FEB0F2 /* WebConferenceList.swift */,
+				434FA94728735C5100FEB0F2 /* WebDivision.swift */,
+				434FA94928735CD200FEB0F2 /* WebDivisionList.swift */,
 				4388EC6D27DE59E0004BB9E9 /* WebTeam.swift */,
 				4388EC7827DE68D9004BB9E9 /* WebTeamList.swift */,
+				434FA94F287360D900FEB0F2 /* WebSeason.swift */,
+				434FA94D287360C700FEB0F2 /* WebSeasonList.swift */,
 			);
 			path = Web;
 			sourceTree = "<group>";
@@ -120,7 +149,8 @@
 		43B1EC6A277C30D5003BFE5D = {
 			isa = PBXGroup;
 			children = (
-				434FA932287264D400FEB0F2 /* Initialization.swift */,
+				434FA932287264D400FEB0F2 /* Setup.swift */,
+				434FA93F287354B200FEB0F2 /* Delete.swift */,
 				43BF76BD27C5D7E500CD9874 /* Logger.swift */,
 				43BF769027C1B5D500CD9874 /* Constants */,
 				43BF76A427C2938100CD9874 /* Database */,
@@ -237,23 +267,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				434FA9442873584B00FEB0F2 /* WebConferenceList.swift in Sources */,
 				43BF76AE27C3F1F100CD9874 /* DatabaseTable.swift in Sources */,
 				43BF769627C1B7C600CD9874 /* Constants.swift in Sources */,
+				434FA946287358BD00FEB0F2 /* DatabaseConference.swift in Sources */,
 				4388EC7727DE6795004BB9E9 /* WebData.swift in Sources */,
+				434FA94828735C5100FEB0F2 /* WebDivision.swift in Sources */,
 				43BF769827C1C8D400CD9874 /* Database.swift in Sources */,
 				43BF76BE27C5D7E500CD9874 /* Logger.swift in Sources */,
-				434FA933287264D400FEB0F2 /* Initialization.swift in Sources */,
+				434FA933287264D400FEB0F2 /* Setup.swift in Sources */,
 				434FA93E28729FFB00FEB0F2 /* DatabaseLogin.swift in Sources */,
+				434FA94E287360C700FEB0F2 /* WebSeasonList.swift in Sources */,
 				43B1EC77277C30D5003BFE5D /* main.swift in Sources */,
 				434FA93B28729E0E00FEB0F2 /* Select.swift in Sources */,
 				4388EC7127DE5E5A004BB9E9 /* WebRequest.swift in Sources */,
 				43BF769227C1B5EE00CD9874 /* ConstantsTemplate.swift in Sources */,
 				4388EC6E27DE59E0004BB9E9 /* WebTeam.swift in Sources */,
+				434FA940287354B200FEB0F2 /* Delete.swift in Sources */,
 				43BF76B027C3F55100CD9874 /* Where.swift in Sources */,
 				4388EC7927DE68D9004BB9E9 /* WebTeamList.swift in Sources */,
+				434FA9522873617700FEB0F2 /* DatabaseSeason.swift in Sources */,
+				434FA950287360D900FEB0F2 /* WebSeason.swift in Sources */,
 				4388EC6927CC406D004BB9E9 /* DatabaseTeam.swift in Sources */,
+				434FA94C28735D0500FEB0F2 /* DatabaseDivision.swift in Sources */,
+				434FA94A28735CD200FEB0F2 /* WebDivisionList.swift in Sources */,
 				43BF76C027CA86B500CD9874 /* Transaction.swift in Sources */,
 				434FA93928729B7F00FEB0F2 /* DatabaseRequest.swift in Sources */,
+				434FA942287357F400FEB0F2 /* WebConference.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
