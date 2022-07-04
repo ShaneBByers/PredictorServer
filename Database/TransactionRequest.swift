@@ -11,10 +11,10 @@ struct TransactionRequest: Encodable
 {
     var queryList: [String] = []
     
-    mutating public func insert(_ tableName: String, _ columnNames: ColumnNames, _ columnNameToValueMapList: [ColumnNameToValueMap])
+    mutating public func insert<TableT: DatabaseTable, EnumT: RawRepresentable>(_ table: TableT.Type, _ columns: [EnumT], _ columnNameToValueMapList: [ColumnNameToValueMap]) where EnumT.RawValue == String
     {
-        var query = "INSERT INTO \(tableName) ("
-        for columnName in columnNames
+        var query = "INSERT INTO \(table.tableName) ("
+        for columnName in columns.map({ $0.rawValue })
         {
             query += "\(columnName), "
         }
@@ -22,7 +22,7 @@ struct TransactionRequest: Encodable
         query += ") VALUES "
         for columnNameToValueMap in columnNameToValueMapList {
             query += "("
-            for columnName in columnNames
+            for columnName in columns.map({ $0.rawValue })
             {
                 if let encodableValue = columnNameToValueMap[columnName]
                 {
@@ -38,9 +38,9 @@ struct TransactionRequest: Encodable
         queryList.append(query)
     }
     
-    mutating public func update(_ tableName: String, _ columnNameToValueMap: ColumnNameToValueMap, _ whereClauses: [Where])
+    mutating public func update<TableT: DatabaseTable>(_ table: TableT.Type, _ columnNameToValueMap: ColumnNameToValueMap, _ whereClauses: [Where])
     {
-        var query = "UPDATE \(tableName) SET "
+        var query = "UPDATE \(table.tableName) SET "
         for (columnName, value) in columnNameToValueMap
         {
             let databaseString = getDatabaseString(value)
@@ -53,9 +53,9 @@ struct TransactionRequest: Encodable
         queryList.append(query)
     }
     
-    mutating public func delete(_ tableName: String, _ whereClauses: [Where])
+    mutating public func delete<TableT: DatabaseTable>(_ table: TableT.Type, _ whereClauses: [Where])
     {
-        var query = "DELETE FROM \(tableName) "
+        var query = "DELETE FROM \(table.tableName) "
         query += getWhereString(whereClauses)
         query += ";"
         queryList.append(query)

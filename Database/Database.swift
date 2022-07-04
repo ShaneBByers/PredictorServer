@@ -8,7 +8,6 @@
 import Foundation
 import OSLog
 
-typealias ColumnNames = [String]
 typealias ColumnNameToValueMap = [String:Encodable?]
 
 struct Database
@@ -24,19 +23,14 @@ struct Database
         return getResponse(from: transactionPHP, using: DatabaseRequest(transactionRequest.queryList))
     }
     
-    static func select<T: DatabaseTable>(_ table: T.Type) -> [T]?
+    static func select<TableT: DatabaseTable>(_ table: TableT.Type, _ whereClauses: [Where]? = nil) -> [TableT]?
     {
-        return getResponse(from: selectPHP, using: DatabaseRequest(SelectRequest(T.tableName).query))
+        return getResponse(from: selectPHP, using: DatabaseRequest(SelectRequest(table)))
     }
     
-    static func select<T: DatabaseTable>(_ whereClause: Where, _ columns: ColumnNames? = nil) -> [T]?
+    static func select<TableT: DatabaseTable, EnumT: RawRepresentable>(_ table: TableT.Type, _ columns: [EnumT]? = nil, _ whereClauses: [Where]? = nil) -> [TableT]? where EnumT.RawValue == String
     {
-        return select([whereClause], columns)
-    }
-    
-    static func select<T: DatabaseTable>(_ whereClauses: [Where]? = nil, _ columns: ColumnNames? = nil) -> [T]?
-    {
-        return getResponse(from: selectPHP, using: DatabaseRequest(SelectRequest(T.tableName, whereClauses, columns).query))
+        return getResponse(from: selectPHP, using: DatabaseRequest(SelectRequest(table, columns, whereClauses)))
     }
     
     private static func getResponse<T: Decodable>(from filename: String, using request: DatabaseRequest) -> T?
@@ -92,10 +86,10 @@ struct Database
             queryList = queries
         }
         
-        init (_ q: String)
+        init (_ select: SelectRequest)
         {
-            logger.debug("\(q)")
-            query = q
+            logger.debug("\(select.query)")
+            query = select.query
         }
         
         struct DatabaseLogin : Encodable
@@ -111,7 +105,20 @@ struct Database
     {
         var query: String
         
-        init(_ tableName: String, _ whereClauses: [Where]? = nil, _ columns: ColumnNames? = nil)
+        init<TableT: DatabaseTable>(_ table: TableT.Type, _ whereClauses: [Where]? = nil)
+        {
+            query = "SELECT * FROM \(table.tableName)"
+            if let whereClauses = whereClauses {
+                query += " WHERE "
+                for whereClause in whereClauses {
+                    query += "\(whereClause.column) \(whereClause.operation) \(whereClause.value) AND "
+                }
+                query.removeLast(5);
+            }
+            query += ";"
+        }
+        
+        init<TableT: DatabaseTable, EnumT: RawRepresentable>(_ table: TableT.Type, _ columns: [EnumT]? = nil, _ whereClauses: [Where]? = nil) where EnumT.RawValue == String
         {
             query = "SELECT "
             if let columns = columns
@@ -128,7 +135,7 @@ struct Database
             {
                 query += "*"
             }
-            query += " FROM \(tableName)"
+            query += " FROM \(table.tableName)"
             if let whereClauses = whereClauses {
                 query += " WHERE "
                 for whereClause in whereClauses {

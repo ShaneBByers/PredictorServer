@@ -30,5 +30,5 @@ let logger = Logger(subsystem: Logger.id, category: Logger.Category.testing.rawV
 
 if let teams = Database.select(DatabaseTeam.self)
 {
-    logger.info("\(teams.count)")
+    logger.info("\(teams[0].fullName!)")
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		434FA933287264D400FEB0F2 /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA932287264D400FEB0F2 /* Initialization.swift */; };
+		434FA9372872718A00FEB0F2 /* Insert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA9362872718A00FEB0F2 /* Insert.swift */; };
 		4388EC6927CC406D004BB9E9 /* DatabaseTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388EC6827CC406D004BB9E9 /* DatabaseTeam.swift */; };
 		4388EC6E27DE59E0004BB9E9 /* WebTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388EC6D27DE59E0004BB9E9 /* WebTeam.swift */; };
 		4388EC7127DE5E5A004BB9E9 /* WebRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388EC7027DE5E5A004BB9E9 /* WebRequest.swift */; };
@@ -20,7 +22,6 @@
 		43BF76B027C3F55100CD9874 /* Where.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76AF27C3F55100CD9874 /* Where.swift */; };
 		43BF76BE27C5D7E500CD9874 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76BD27C5D7E500CD9874 /* Logger.swift */; };
 		43BF76C027CA86B500CD9874 /* TransactionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76BF27CA86B500CD9874 /* TransactionRequest.swift */; };
-		43BF76C427CAE08300CD9874 /* TestTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76C327CAE08300CD9874 /* TestTable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +37,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		434FA932287264D400FEB0F2 /* Initialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Initialization.swift; sourceTree = "<group>"; };
+		434FA9362872718A00FEB0F2 /* Insert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Insert.swift; sourceTree = "<group>"; };
 		4388EC6827CC406D004BB9E9 /* DatabaseTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseTeam.swift; sourceTree = "<group>"; };
 		4388EC6D27DE59E0004BB9E9 /* WebTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebTeam.swift; sourceTree = "<group>"; };
 		4388EC7027DE5E5A004BB9E9 /* WebRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRequest.swift; sourceTree = "<group>"; };
@@ -50,7 +53,6 @@
 		43BF76AF27C3F55100CD9874 /* Where.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Where.swift; sourceTree = "<group>"; };
 		43BF76BD27C5D7E500CD9874 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		43BF76BF27CA86B500CD9874 /* TransactionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRequest.swift; sourceTree = "<group>"; };
-		43BF76C327CAE08300CD9874 /* TestTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 		43B1EC6A277C30D5003BFE5D = {
 			isa = PBXGroup;
 			children = (
+				434FA932287264D400FEB0F2 /* Initialization.swift */,
 				43BF76BD27C5D7E500CD9874 /* Logger.swift */,
 				43BF769027C1B5D500CD9874 /* Constants */,
 				43BF76A427C2938100CD9874 /* Database */,
@@ -136,7 +139,7 @@
 				43BF76AD27C3F1F100CD9874 /* DatabaseTable.swift */,
 				43BF76AF27C3F55100CD9874 /* Where.swift */,
 				43BF76BF27CA86B500CD9874 /* TransactionRequest.swift */,
-				43BF76C327CAE08300CD9874 /* TestTable.swift */,
+				434FA9362872718A00FEB0F2 /* Insert.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -220,12 +223,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				434FA9372872718A00FEB0F2 /* Insert.swift in Sources */,
 				43BF76AE27C3F1F100CD9874 /* DatabaseTable.swift in Sources */,
 				43BF769627C1B7C600CD9874 /* Constants.swift in Sources */,
 				4388EC7727DE6795004BB9E9 /* WebData.swift in Sources */,
 				43BF769827C1C8D400CD9874 /* Database.swift in Sources */,
 				43BF76BE27C5D7E500CD9874 /* Logger.swift in Sources */,
-				43BF76C427CAE08300CD9874 /* TestTable.swift in Sources */,
+				434FA933287264D400FEB0F2 /* Initialization.swift in Sources */,
 				43B1EC77277C30D5003BFE5D /* main.swift in Sources */,
 				4388EC7127DE5E5A004BB9E9 /* WebRequest.swift in Sources */,
 				43BF769227C1B5EE00CD9874 /* ConstantsTemplate.swift in Sources */,

@@ -9,6 +9,8 @@ import Foundation
 
 struct DatabaseTeam : DatabaseTable
 {
+    typealias ColumnType = TeamColumn
+    
     static var tableName = "TEAMS"
     
     var id: Int?
@@ -38,20 +40,25 @@ struct DatabaseTeam : DatabaseTable
         timezone = try? container?.decode(String.self, forKey: .timezone)
     }
     
-    init(_ teamWeb: WebTeam)
+    init(_ webTeam: WebTeam)
     {
-        id = teamWeb.id
-        divisionId = teamWeb.division?.id
-        fullName = teamWeb.name
-        locationName = teamWeb.locationName
-        nickname = teamWeb.teamName
-        abbreviation = teamWeb.abbreviation
-        timezone = teamWeb.venue?.timeZone?.tz
+        id = webTeam.id
+        divisionId = webTeam.division?.id
+        fullName = webTeam.name
+        locationName = webTeam.locationName
+        nickname = webTeam.teamName
+        abbreviation = webTeam.abbreviation
+        timezone = webTeam.venue?.timeZone?.tz
     }
     
     func updateValues(_ columns: [TeamColumn]) -> ColumnNameToValueMap
     {
         return DatabaseTeam.getColumnNameToValueMap(self, columns)
+    }
+    
+    static func insertColumns() -> [TeamColumn]
+    {
+        return TeamColumn.allCases
     }
     
     static func insertValues(_ tables: [DatabaseTeam]) -> [ColumnNameToValueMap]
@@ -83,15 +90,10 @@ struct DatabaseTeam : DatabaseTable
         return map
     }
     
-    static func columns(_ columns: [TeamColumn] = TeamColumn.allCases) -> ColumnNames
-    {
-        return columns.map { $0.rawValue }
-    }
-    
-    enum TeamColumn: String, CodingKey, CaseIterable
+    enum TeamColumn: String, DatabaseColumn
     {
         case id = "ID"
-        case divisionId =  "DIVISION_ID"
+        case divisionId = "DIVISION_ID"
         case fullName = "FULL_NAME"
         case locationName = "LOCATION_NAME"
         case nickname = "NICKNAME"
