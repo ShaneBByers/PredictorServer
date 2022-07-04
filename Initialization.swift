@@ -18,9 +18,7 @@ func getTeams()
             {
                 databaseTeams.append(DatabaseTeam(webTeam))
             }
-            var transaction = Transaction()
-            transaction.insert(databaseTeams)
-            if let rowCount = Database.execute(transaction)
+            if let rowCount = Database.insert(databaseTeams)
             {
                 logger.info("\(rowCount)")
             }

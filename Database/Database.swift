@@ -8,8 +8,6 @@
 import Foundation
 import OSLog
 
-typealias ColumnNameToValueMap = [String:Encodable?]
-
 struct Database
 {
     private static let baseUrl = "http://www.nhl-predictor.com/"
@@ -20,20 +18,46 @@ struct Database
     
     static func execute(_ transaction: Transaction) -> Int?
     {
-        return getResponse(from: transactionPHP, using: DatabaseRequest(transaction.queryList))
+        return getResponse(from: transactionPHP, using: transaction)
     }
     
-    static func select<TableT: DatabaseTable>(_ table: TableT.Type, _ whereClauses: [Where]? = nil) -> [TableT]?
+    static func insert<TableT: DatabaseTable>(_ rows: [TableT]) -> Int?
     {
-        return getResponse(from: selectPHP, using: DatabaseRequest(SelectRequest(table)))
+        var transaction = Transaction()
+        transaction.insert(rows)
+        return execute(transaction)
     }
     
-    static func select<TableT: DatabaseTable, EnumT: RawRepresentable>(_ table: TableT.Type, _ columns: [EnumT]? = nil, _ whereClauses: [Where]? = nil) -> [TableT]? where EnumT.RawValue == String
+    static func update<TableT: DatabaseTable>(using row: TableT, on cols: [TableT.ColumnType], where whereClauses: [Where]) -> Int?
     {
-        return getResponse(from: selectPHP, using: DatabaseRequest(SelectRequest(table, columns, whereClauses)))
+        var transaction = Transaction()
+        transaction.update(using: row, on: cols, where: whereClauses)
+        return execute(transaction)
     }
     
-    private static func getResponse<T: Decodable>(from filename: String, using request: DatabaseRequest) -> T?
+    static func delete<TableT: DatabaseTable>(_ table: TableT.Type, where whereClauses: [Where]) -> Int?
+    {
+        var transaction = Transaction()
+        transaction.delete(table, where: whereClauses)
+        return execute(transaction)
+    }
+    
+    static func select<TableT: DatabaseTable>(_ select: Select) -> [TableT]?
+    {
+        return getResponse(from: selectPHP, using: select)
+    }
+    
+    static func select<TableT: DatabaseTable>(_ table: TableT.Type, where whereClause: Where? = nil) -> [TableT]?
+    {
+        return select(Select(table, where: whereClause))
+    }
+    
+    static func select<TableT: DatabaseTable>(_ table: TableT.Type, including cols: [TableT.ColumnType]? = nil, where whereClauses: [Where]? = nil) -> [TableT]?
+    {
+        return select(Select(table, including: cols, where: whereClauses))
+    }
+    
+    private static func getResponse<RequestT: DatabaseRequest, ReturnT: Decodable>(from filename: String, using request: RequestT) -> ReturnT?
     {
         if let url = URL(string: baseUrl + filename)
         {
@@ -43,7 +67,7 @@ struct Database
                 if let jsonResponse = executePostRequest(url, with: body)
                 {
                     let decoder = JSONDecoder()
-                    if let decoded = try? decoder.decode(T.self, from: jsonResponse)
+                    if let decoded = try? decoder.decode(ReturnT.self, from: jsonResponse)
                     {
                         return decoded
                     }
@@ -67,83 +91,5 @@ struct Database
         }.resume()
         semaphore.wait()
         return jsonResponse
-    }
-    
-    private struct DatabaseRequest : Encodable
-    {
-        let databaseLogin = DatabaseLogin()
-        var queryList: [String]?
-        var query: String?
-        
-        init (_ queries: [String])
-        {
-            logger.debug("START TRANSACTION")
-            for query in queries
-            {
-                logger.debug("\(query)")
-            }
-            logger.debug("COMMIT")
-            queryList = queries
-        }
-        
-        init (_ select: SelectRequest)
-        {
-            logger.debug("\(select.query)")
-            query = select.query
-        }
-        
-        struct DatabaseLogin : Encodable
-        {
-            let serverName = ConstantStrings.DB_SERVER_NAME.rawValue
-            let username = ConstantStrings.DB_USERNAME.rawValue
-            let password = ConstantStrings.DB_PASSWORD.rawValue
-            let databaseName = ConstantStrings.DB_DATABASE_NAME.rawValue
-        }
-    }
-    
-    private struct SelectRequest : Encodable
-    {
-        var query: String
-        
-        init<TableT: DatabaseTable>(_ table: TableT.Type, _ whereClauses: [Where]? = nil)
-        {
-            query = "SELECT * FROM \(table.tableName)"
-            if let whereClauses = whereClauses {
-                query += " WHERE "
-                for whereClause in whereClauses {
-                    query += "\(whereClause.column) \(whereClause.operation) \(whereClause.value) AND "
-                }
-                query.removeLast(5);
-            }
-            query += ";"
-        }
-        
-        init<TableT: DatabaseTable, EnumT: RawRepresentable>(_ table: TableT.Type, _ columns: [EnumT]? = nil, _ whereClauses: [Where]? = nil) where EnumT.RawValue == String
-        {
-            query = "SELECT "
-            if let columns = columns
-            {
-                query += "("
-                for column in columns
-                {
-                    query += "\(column), "
-                }
-                query.removeLast(2)
-                query += ")"
-            }
-            else
-            {
-                query += "*"
-            }
-            query += " FROM \(table.tableName)"
-            if let whereClauses = whereClauses {
-                query += " WHERE "
-                for whereClause in whereClauses {
-                    query += "\(whereClause.column) \(whereClause.operation) \(whereClause.value) AND "
-                }
-                query.removeLast(5);
-            }
-            query += ";"
-        }
     }
 }

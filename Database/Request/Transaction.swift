@@ -7,12 +7,13 @@
 
 import Foundation
 
-struct Transaction: Encodable
+struct Transaction: DatabaseRequest
 {
+    var databaseLogin = DatabaseLogin()
     var queryList: [String] = []
     
     mutating public func insert<TableT: DatabaseTable>(_ rows: [TableT])
-    {        
+    {
         if !rows.isEmpty
         {
             let cols = TableT.editableColumns()
@@ -32,7 +33,7 @@ struct Transaction: Encodable
                 {
                     if let encodableValue = valueDict[col]
                     {
-                        let databaseString = getDatabaseString(encodableValue)
+                        let databaseString = Transaction.getDatabaseString(encodableValue)
                         query += "\(databaseString), "
                     }
                 }
@@ -45,7 +46,7 @@ struct Transaction: Encodable
         }
     }
     
-    mutating public func update<TableT: DatabaseTable>(_ row: TableT, columns cols: [TableT.ColumnType], where whereClauses: [Where])
+    mutating public func update<TableT: DatabaseTable>(using row: TableT, on cols: [TableT.ColumnType], where whereClauses: [Where])
     {
         var query = "UPDATE \(TableT.tableName) SET "
         let valueDict = row.values()
@@ -53,12 +54,12 @@ struct Transaction: Encodable
         {
             if let encodableValue = valueDict[col]
             {
-                let databaseString = getDatabaseString(encodableValue)
+                let databaseString = Transaction.getDatabaseString(encodableValue)
                 query += "\(col.rawValue) = \(databaseString)"
             }
             query.removeLast(2)
             query += " "
-            query += getWhereString(whereClauses)
+            query += Transaction.getWhereString(whereClauses)
             query += ";"
             queryList.append(query)
         }
@@ -67,31 +68,8 @@ struct Transaction: Encodable
     mutating public func delete<TableT: DatabaseTable>(_ table: TableT.Type, where whereClauses: [Where])
     {
         var query = "DELETE FROM \(table.tableName) "
-        query += getWhereString(whereClauses)
+        query += Transaction.getWhereString(whereClauses)
         query += ";"
         queryList.append(query)
-    }
-    
-    private func getWhereString(_ whereClauses: [Where]) -> String
-    {
-        var whereString = "WHERE "
-        for whereClause in whereClauses {
-            whereString += "\(whereClause.column) \(whereClause.operation) \(whereClause.value) AND "
-        }
-        whereString.removeLast(5)
-        return whereString
-    }
-    
-    private func getDatabaseString(_ encodable: Encodable?) -> String
-    {
-        switch encodable
-        {
-            case let intValue as Int:
-                return "\(intValue)"
-            case let stringValue as String:
-                return "'\(stringValue)'"
-            default:
-                return "NULL"
-        }
     }
 }
