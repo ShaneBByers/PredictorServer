@@ -7,10 +7,15 @@
 
 import Foundation
 
-struct WebConference: WebData
+struct WebConferenceList: WebData
 {
-    static var path = ""
+    var path: String? = "conferences"
     
+    var conferences: [WebConference]?
+}
+
+struct WebConference: Decodable
+{
     var id: Int?
     var name: String?
     var abbreviation: String?

@@ -7,6 +7,14 @@
 
 import Foundation
 
+enum DateType
+{
+    case dbDate
+    case dbDateTime
+    case webDate
+    case webDateTime
+}
+
 protocol DatabaseColumn: Codable, CodingKey, CaseIterable, RawRepresentable, Hashable {}
 
 protocol DatabaseTable: Codable
@@ -42,14 +50,44 @@ extension DatabaseTable
         return returnInt
     }
     
-    func decodeDate(from container: KeyedDecodingContainer<ColumnType>?, for col: ColumnType) -> Date?
+    func decodeDate(from container: KeyedDecodingContainer<ColumnType>?, for col: ColumnType, ofType dateType: DateType) -> Date?
     {
         var returnDate: Date?
         if let decodedString = try? container?.decode(String.self, forKey: col)
         {
-            returnDate = ISO8601DateFormatter().date(from: decodedString)
+            let dateFormatter = getDateFormatter(for: dateType)
+            returnDate = dateFormatter.date(from: decodedString)
         }
         
         return returnDate
+    }
+    
+    func decodeDateTime(from container: KeyedDecodingContainer<ColumnType>?, for col: ColumnType, ofType dateType: DateType) -> Date?
+    {
+        var returnDateTime: Date?
+        if let decodedString = try? container?.decode(String.self, forKey: col)
+        {
+            let dateFormatter = getDateFormatter(for: dateType)
+            returnDateTime = dateFormatter.date(from: decodedString)
+        }
+        
+        return returnDateTime
+    }
+    
+    func getDateFormatter(for dateType: DateType) -> DateFormatter
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        switch dateType
+        {
+            case .dbDate, .webDate:
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+            case .dbDateTime:
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            case .webDateTime:
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        }
+        return dateFormatter
     }
 }

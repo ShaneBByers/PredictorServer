@@ -7,10 +7,16 @@
 
 import Foundation
 
-struct WebDivision: WebData
+struct WebDivisionList: WebData
 {
-    static var path = ""
+    var path: String? = "divisions"
     
+    var divisions: [WebDivision]?
+}
+
+
+struct WebDivision: Decodable
+{
     var id: Int?
     var conference: Conference?
     var name: String?

@@ -7,10 +7,15 @@
 
 import Foundation
 
-struct WebSeason: WebData
+struct WebSeasonList: WebData
 {
-    static var path = ""
+    var path: String? = "seasons"
     
+    var seasons: [WebSeason]?
+}
+
+struct WebSeason: Decodable
+{
     var seasonId: String?
     var regularSeasonStartDate: String?
     var regularSeasonEndDate: String?

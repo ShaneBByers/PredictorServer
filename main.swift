@@ -12,8 +12,8 @@ let logger = Logger(subsystem: Logger.id, category: Logger.Category.testing.rawV
 
 let setup = Setup()
 
-setup.setupSeasons()
+setup.setupGames()
 
 let delete = Delete()
 
-//delete.deleteSeasons()
+//delete.deleteGames()

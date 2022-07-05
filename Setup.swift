@@ -16,13 +16,14 @@ struct Setup
         setupDivisions()
         setupTeams()
         setupSeasons()
+        setupGames()
         logger.info("Finished setting up: All Data")
     }
     
     func setupConferences()
     {
         logger.info("Setting up: Conferences")
-        if let webConferenceList = WebRequest.getData(WebConferenceList.self)
+        if let webConferenceList = WebRequest.getData(WebConferenceList())
         {
             if let webConferences = webConferenceList.conferences
             {
@@ -44,7 +45,7 @@ struct Setup
     func setupDivisions()
     {
         logger.info("Setting up: Divisions")
-        if let webDivisionList = WebRequest.getData(WebDivisionList.self)
+        if let webDivisionList = WebRequest.getData(WebDivisionList())
         {
             if let webDivisions = webDivisionList.divisions
             {
@@ -66,7 +67,7 @@ struct Setup
     func setupTeams()
     {
         logger.info("Setting up: Teams")
-        if let webTeamList = WebRequest.getData(WebTeamList.self)
+        if let webTeamList = WebRequest.getData(WebTeamList())
         {
             if let webTeams = webTeamList.teams
             {
@@ -89,7 +90,7 @@ struct Setup
     func setupSeasons()
     {
         logger.info("Setting up: Seasons")
-        if let webSeasonList = WebRequest.getData(WebSeasonList.self)
+        if let webSeasonList = WebRequest.getData(WebSeasonList())
         {
             if let webSeasons = webSeasonList.seasons
             {
@@ -107,5 +108,88 @@ struct Setup
             }
         }
         logger.info("Finished setting up: Seasons")
+    }
+    
+    func setupGames()
+    {
+        logger.info("Setting up: Games")
+        if let seasons = Database.select(DatabaseSeason.self, where: Where(DatabaseSeason.self, .id, >=, 20052006)),
+           let teams = Database.select(DatabaseTeam.self)
+        {
+            var teamIds = teams.map { $0.id }
+            var insertTransaction = Transaction()
+            for season in seasons
+            {
+                if let seasonId = season.id
+                {
+                    logger.info("Fetching games for season with ID: \(seasonId).")
+                    if let webGamesList = WebRequest.getData(WebGameList(forSeason: seasonId)),
+                        let webGamesDates = webGamesList.dates
+                    {
+                        logger.info("Read \(webGamesDates.count) dates for season with ID: \(seasonId).")
+                        for webGameDate in webGamesDates
+                        {
+                            if let webGames = webGameDate.games,
+                                let date = webGameDate.date
+                            {
+                                logger.info("Read \(webGames.count) games for date: \(date)")
+                                var databaseGames: [DatabaseGame] = []
+                                for webGame in webGames
+                                {
+                                    if let gameType = webGame.gameType,
+                                       gameType == "R" || gameType == "P"
+                                    {
+                                        let databaseGame = DatabaseGame(from: webGame)
+                                        databaseGames.append(databaseGame)
+                                        
+                                        if let homeTeamId = databaseGame.homeTeamId,
+                                           !teamIds.contains(homeTeamId)
+                                        {
+                                            if let newTeamList = WebRequest.getData(WebTeamList(forTeam: homeTeamId)),
+                                               let newTeams = newTeamList.teams
+                                            {
+                                                var databaseTeams: [DatabaseTeam] = []
+                                                for newTeam in newTeams
+                                                {
+                                                    let databaseTeam = DatabaseTeam(from: newTeam)
+                                                    databaseTeams.append(databaseTeam)
+                                                    teamIds.append(databaseTeam.id)
+                                                }
+                                                insertTransaction.insert(values: databaseTeams)
+                                            }
+                                        }
+                                        
+                                        if let awayTeamId = databaseGame.awayTeamId,
+                                           !teamIds.contains(awayTeamId)
+                                        {
+                                            if let newTeamList = WebRequest.getData(WebTeamList(forTeam: awayTeamId)),
+                                               let newTeams = newTeamList.teams
+                                            {
+                                                var databaseTeams: [DatabaseTeam] = []
+                                                for newTeam in newTeams
+                                                {
+                                                    let databaseTeam = DatabaseTeam(from: newTeam)
+                                                    databaseTeams.append(databaseTeam)
+                                                    teamIds.append(databaseTeam.id)
+                                                }
+                                                insertTransaction.insert(values: databaseTeams)
+                                            }
+                                        }
+                                    }
+                                }
+                                logger.info("Adding \(databaseGames.count) games to insert transaction.")
+                                insertTransaction.insert(values: databaseGames)
+                            }
+                        }
+                    }
+                }
+            }
+            logger.info("Executing \(insertTransaction.queryList.count) inserts into database.")
+            if let inserted = Database.execute(insertTransaction)
+            {
+                logger.info("Inserted \(inserted) games to database.")
+            }
+        }
+        logger.info("Finished setting up: Games")
     }
 }

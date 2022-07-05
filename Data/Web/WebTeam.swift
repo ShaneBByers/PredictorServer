@@ -7,10 +7,25 @@
 
 import Foundation
 
-struct WebTeam: WebData
+struct WebTeamList: WebData
 {
-    static var path = ""
+    var path: String?
     
+    var teams: [WebTeam]?
+    
+    init()
+    {
+        path = "teams"
+    }
+    
+    init(forTeam teamId: Int)
+    {
+        path = "teams/\(teamId)"
+    }
+}
+
+struct WebTeam: Decodable
+{
     var id: Int?
     var division: Division?
     var venue: TeamVenue?

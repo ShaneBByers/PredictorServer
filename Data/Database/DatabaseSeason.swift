@@ -25,9 +25,9 @@ struct DatabaseSeason: DatabaseTable
     {
         let container = try? decoder.container(keyedBy: SeasonColumn.self)
         id = decodeInt(from: container, for: .id)
-        regularSeasonStartDate = decodeDate(from: container, for: .regularSeasonStartDate)
-        regularSeasonEndDate = decodeDate(from: container, for: .regularSeasonEndDate)
-        seasonEndDate = decodeDate(from: container, for: .seasonEndDate)
+        regularSeasonStartDate = decodeDate(from: container, for: .regularSeasonStartDate, ofType: .dbDate)
+        regularSeasonEndDate = decodeDate(from: container, for: .regularSeasonEndDate, ofType: .dbDate)
+        seasonEndDate = decodeDate(from: container, for: .seasonEndDate, ofType: .dbDate)
         numberOfGames = decodeInt(from: container, for: .numberOfGames)
     }
     
@@ -38,9 +38,7 @@ struct DatabaseSeason: DatabaseTable
             id = Int(idString)
         }
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        let dateFormatter = getDateFormatter(for: .webDate)
         
         if let dateString = webSeason.regularSeasonStartDate
         {

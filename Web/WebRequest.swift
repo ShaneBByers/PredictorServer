@@ -13,9 +13,9 @@ struct WebRequest
     private static let baseUrl = "http://statsapi.web.nhl.com/api/v1/"
     private static let logger = Logger(subsystem: Logger.id, category: Logger.Category.webRequest.rawValue)
     
-    public static func getData<T: WebData>(_ webData: T.Type) -> T?
+    public static func getData<T: WebData>(_ webData: T) -> T?
     {
-        if let url = URL(string: baseUrl + T.path)
+        if let path = webData.path, let url = URL(string: baseUrl + path)
         {
             logger.info("\(url)")
             if let jsonResponse = executeGetRequest(url)
