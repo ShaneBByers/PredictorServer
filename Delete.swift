@@ -12,12 +12,24 @@ struct Delete
     func deleteAllData()
     {
         logger.info("Deleting: All Data")
+        deleteTeamStats()
         deleteGames()
         deleteSeasons()
         deleteTeams()
         deleteDivisions()
         deleteConferences()
         logger.info("Finished deleting: All Data")
+    }
+    
+    func deleteTeamStats()
+    {
+        logger.info("Deleting: Team Stats")
+        logger.info("Deleting team stats from database.")
+        if let deleted = Database.delete(from: DatabaseTeamStats.self, where: [Where(DatabaseTeamStats.self, .gameId, >, 0)])
+        {
+            logger.info("Deleted \(deleted) team stats from database.")
+        }
+        logger.info("Finished deleting: Team Stats")
     }
     
     func deleteGames()

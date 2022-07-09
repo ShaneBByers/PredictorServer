@@ -20,6 +20,7 @@
 		434FA9522873617700FEB0F2 /* DatabaseSeason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA9512873617700FEB0F2 /* DatabaseSeason.swift */; };
 		434FA9542873C27500FEB0F2 /* WebGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA9532873C27500FEB0F2 /* WebGame.swift */; };
 		434FA9562873C82900FEB0F2 /* DatabaseGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA9552873C82900FEB0F2 /* DatabaseGame.swift */; };
+		434FA95B2879FA3B00FEB0F2 /* WebTeamStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FA95A2879FA3B00FEB0F2 /* WebTeamStats.swift */; };
 		4388EC6927CC406D004BB9E9 /* DatabaseTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388EC6827CC406D004BB9E9 /* DatabaseTeam.swift */; };
 		4388EC6E27DE59E0004BB9E9 /* WebTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388EC6D27DE59E0004BB9E9 /* WebTeam.swift */; };
 		4388EC7127DE5E5A004BB9E9 /* WebRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388EC7027DE5E5A004BB9E9 /* WebRequest.swift */; };
@@ -32,6 +33,7 @@
 		43BF76B027C3F55100CD9874 /* Where.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76AF27C3F55100CD9874 /* Where.swift */; };
 		43BF76BE27C5D7E500CD9874 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76BD27C5D7E500CD9874 /* Logger.swift */; };
 		43BF76C027CA86B500CD9874 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76BF27CA86B500CD9874 /* Transaction.swift */; };
+		43D412212879FDAD00B7E496 /* DatabaseTeamStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D412202879FDAD00B7E496 /* DatabaseTeamStats.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,6 +62,7 @@
 		434FA9512873617700FEB0F2 /* DatabaseSeason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseSeason.swift; sourceTree = "<group>"; };
 		434FA9532873C27500FEB0F2 /* WebGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebGame.swift; sourceTree = "<group>"; };
 		434FA9552873C82900FEB0F2 /* DatabaseGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseGame.swift; sourceTree = "<group>"; };
+		434FA95A2879FA3B00FEB0F2 /* WebTeamStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebTeamStats.swift; sourceTree = "<group>"; };
 		4388EC6827CC406D004BB9E9 /* DatabaseTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseTeam.swift; sourceTree = "<group>"; };
 		4388EC6D27DE59E0004BB9E9 /* WebTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebTeam.swift; sourceTree = "<group>"; };
 		4388EC7027DE5E5A004BB9E9 /* WebRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRequest.swift; sourceTree = "<group>"; };
@@ -73,6 +76,7 @@
 		43BF76AF27C3F55100CD9874 /* Where.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Where.swift; sourceTree = "<group>"; };
 		43BF76BD27C5D7E500CD9874 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		43BF76BF27CA86B500CD9874 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		43D412202879FDAD00B7E496 /* DatabaseTeamStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseTeamStats.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +128,7 @@
 				4388EC6827CC406D004BB9E9 /* DatabaseTeam.swift */,
 				434FA9512873617700FEB0F2 /* DatabaseSeason.swift */,
 				434FA9552873C82900FEB0F2 /* DatabaseGame.swift */,
+				43D412202879FDAD00B7E496 /* DatabaseTeamStats.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -136,6 +141,7 @@
 				4388EC6D27DE59E0004BB9E9 /* WebTeam.swift */,
 				434FA94F287360D900FEB0F2 /* WebSeason.swift */,
 				434FA9532873C27500FEB0F2 /* WebGame.swift */,
+				434FA95A2879FA3B00FEB0F2 /* WebTeamStats.swift */,
 			);
 			path = Web;
 			sourceTree = "<group>";
@@ -272,8 +278,10 @@
 				434FA933287264D400FEB0F2 /* Setup.swift in Sources */,
 				434FA93E28729FFB00FEB0F2 /* DatabaseLogin.swift in Sources */,
 				43B1EC77277C30D5003BFE5D /* main.swift in Sources */,
+				434FA95B2879FA3B00FEB0F2 /* WebTeamStats.swift in Sources */,
 				434FA93B28729E0E00FEB0F2 /* Select.swift in Sources */,
 				4388EC7127DE5E5A004BB9E9 /* WebRequest.swift in Sources */,
+				43D412212879FDAD00B7E496 /* DatabaseTeamStats.swift in Sources */,
 				43BF769227C1B5EE00CD9874 /* ConstantsTemplate.swift in Sources */,
 				4388EC6E27DE59E0004BB9E9 /* WebTeam.swift in Sources */,
 				434FA940287354B200FEB0F2 /* Delete.swift in Sources */,

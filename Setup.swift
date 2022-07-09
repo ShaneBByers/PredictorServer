@@ -17,6 +17,7 @@ struct Setup
         setupTeams()
         setupSeasons()
         setupGames()
+        setupTeamStats()
         logger.info("Finished setting up: All Data")
     }
     
@@ -191,5 +192,44 @@ struct Setup
             }
         }
         logger.info("Finished setting up: Games")
+    }
+    
+    func setupTeamStats()
+    {
+        logger.info("Setting up: Team Stats")
+        if let seasons = Database.select(DatabaseSeason.self)
+        {
+            for season in seasons
+            {
+                if let seasonId = season.id
+                {
+                    if let games = Database.select(DatabaseGame.self, where: Where(DatabaseGame.self, .seasonId, ==, seasonId))
+                    {
+                        var insertTeamStats: [DatabaseTeamStats] = []
+                        for game in games
+                        {
+                            if let gameId = game.id
+                            {
+                                logger.info("Fetching team stats for game with ID: \(gameId)")
+                                if let webTeamStats = WebRequest.getData(WebTeamStats(forGame: gameId)),
+                                   let homeTeamStats = webTeamStats.teams?.home,
+                                   let awayTeamStats = webTeamStats.teams?.away
+                                {
+                                    insertTeamStats.append(DatabaseTeamStats(from: homeTeamStats, usingGameId: gameId))
+                                    insertTeamStats.append(DatabaseTeamStats(from: awayTeamStats, usingGameId: gameId))
+                                }
+                            }
+                        }
+                        logger.info("Inserting \(insertTeamStats.count) team stats to database.")
+                        if let inserted = Database.insert(values: insertTeamStats)
+                        {
+                            logger.info("Inserted \(inserted) team stats to database.")
+                        }
+                    }
+                }
+            }
+
+        }
+        logger.info("Finished setting up: Team Stats")
     }
 }
