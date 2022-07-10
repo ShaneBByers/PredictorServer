@@ -32,7 +32,7 @@ extension DatabaseRequest
             case let intValue as Int:
                 return "\(intValue)"
             case let stringValue as String:
-                return "'\(stringValue)'"
+                return "'\(stringValue.replacingOccurrences(of: "'", with: "\\'"))'"
             case let dateValue as Date:
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"

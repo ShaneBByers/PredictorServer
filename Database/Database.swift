@@ -77,6 +77,10 @@ struct Database
                     {
                         return decoded
                     }
+                    else
+                    {
+                        logger.debug("\(jsonResponse)")
+                    }
                 }
             }
         }

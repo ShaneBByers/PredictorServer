@@ -34,6 +34,9 @@
 		43BF76BE27C5D7E500CD9874 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76BD27C5D7E500CD9874 /* Logger.swift */; };
 		43BF76C027CA86B500CD9874 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76BF27CA86B500CD9874 /* Transaction.swift */; };
 		43D412212879FDAD00B7E496 /* DatabaseTeamStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D412202879FDAD00B7E496 /* DatabaseTeamStats.swift */; };
+		43D41225287A67A100B7E496 /* WebPlayerStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D41224287A67A100B7E496 /* WebPlayerStats.swift */; };
+		43D41227287A6BCC00B7E496 /* DatabasePlayerStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D41226287A6BCC00B7E496 /* DatabasePlayerStats.swift */; };
+		43D41229287A725600B7E496 /* DatabasePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D41228287A725600B7E496 /* DatabasePlayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,6 +80,9 @@
 		43BF76BD27C5D7E500CD9874 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		43BF76BF27CA86B500CD9874 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		43D412202879FDAD00B7E496 /* DatabaseTeamStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseTeamStats.swift; sourceTree = "<group>"; };
+		43D41224287A67A100B7E496 /* WebPlayerStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPlayerStats.swift; sourceTree = "<group>"; };
+		43D41226287A6BCC00B7E496 /* DatabasePlayerStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabasePlayerStats.swift; sourceTree = "<group>"; };
+		43D41228287A725600B7E496 /* DatabasePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabasePlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +135,8 @@
 				434FA9512873617700FEB0F2 /* DatabaseSeason.swift */,
 				434FA9552873C82900FEB0F2 /* DatabaseGame.swift */,
 				43D412202879FDAD00B7E496 /* DatabaseTeamStats.swift */,
+				43D41226287A6BCC00B7E496 /* DatabasePlayerStats.swift */,
+				43D41228287A725600B7E496 /* DatabasePlayer.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -142,6 +150,7 @@
 				434FA94F287360D900FEB0F2 /* WebSeason.swift */,
 				434FA9532873C27500FEB0F2 /* WebGame.swift */,
 				434FA95A2879FA3B00FEB0F2 /* WebTeamStats.swift */,
+				43D41224287A67A100B7E496 /* WebPlayerStats.swift */,
 			);
 			path = Web;
 			sourceTree = "<group>";
@@ -274,7 +283,10 @@
 				4388EC7727DE6795004BB9E9 /* WebData.swift in Sources */,
 				434FA94828735C5100FEB0F2 /* WebDivision.swift in Sources */,
 				43BF769827C1C8D400CD9874 /* Database.swift in Sources */,
+				43D41225287A67A100B7E496 /* WebPlayerStats.swift in Sources */,
 				43BF76BE27C5D7E500CD9874 /* Logger.swift in Sources */,
+				43D41229287A725600B7E496 /* DatabasePlayer.swift in Sources */,
+				43D41227287A6BCC00B7E496 /* DatabasePlayerStats.swift in Sources */,
 				434FA933287264D400FEB0F2 /* Setup.swift in Sources */,
 				434FA93E28729FFB00FEB0F2 /* DatabaseLogin.swift in Sources */,
 				43B1EC77277C30D5003BFE5D /* main.swift in Sources */,

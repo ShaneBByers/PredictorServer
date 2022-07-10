@@ -18,6 +18,7 @@ struct Setup
         setupSeasons()
         setupGames()
         setupTeamStats()
+        setupPlayerStatsAndPlayers()
         logger.info("Finished setting up: All Data")
     }
     
@@ -197,7 +198,7 @@ struct Setup
     func setupTeamStats()
     {
         logger.info("Setting up: Team Stats")
-        if let seasons = Database.select(DatabaseSeason.self)
+        if let seasons = Database.select(DatabaseSeason.self, where: Where(DatabaseSeason.self, .id, >=, 20052006))
         {
             for season in seasons
             {
@@ -231,5 +232,88 @@ struct Setup
 
         }
         logger.info("Finished setting up: Team Stats")
+    }
+    
+    func setupPlayerStatsAndPlayers()
+    {
+        logger.info("Setting up: Player Stats AND Players")
+        if let players = Database.select(DatabasePlayer.self)
+        {
+            var playerIds = players.map { $0.id }
+            var insertTransaction = Transaction()
+            if let seasons = Database.select(DatabaseSeason.self, where: Where(DatabaseSeason.self, .id, >=, 20052006))
+            {
+                for season in seasons
+                {
+                    var insertPlayers: [DatabasePlayer] = []
+                    var insertPlayerStats: [DatabasePlayerStats] = []
+                    if let seasonId = season.id,
+                       let games = Database.select(DatabaseGame.self, where: Where(DatabaseGame.self, .seasonId, ==, seasonId))
+                    {
+                        for game in games
+                        {
+                            if let gameId = game.id
+                            {
+                                logger.info("Fetching player stats for game with ID: \(gameId)")
+                                if let webPlayerStats = WebRequest.getData(WebPlayerStats(forGame: gameId)),
+                                   let homeTeamId = webPlayerStats.teams?.home?.team?.id,
+                                   let awayTeamId = webPlayerStats.teams?.away?.team?.id,
+                                   let homePlayers = webPlayerStats.teams?.home?.players,
+                                   let awayPlayers = webPlayerStats.teams?.away?.players
+                                {
+                                    for homePlayer in homePlayers.values
+                                    {
+                                        if let homePerson = homePlayer.person,
+                                           let homePersonId = homePerson.id,
+                                           let homeSkaterStats = homePlayer.stats?.skaterStats
+                                        {
+                                            if !playerIds.contains(homePersonId)
+                                            {
+                                                insertPlayers.append(DatabasePlayer(from: homePerson))
+                                                playerIds.append(homePersonId)
+                                            }
+                                            
+                                            insertPlayerStats.append(DatabasePlayerStats(from: homeSkaterStats,
+                                                                                         usingGameId: gameId,
+                                                                                         usingTeamId: homeTeamId,
+                                                                                         usingPlayerId: homePersonId))
+                                        }
+                                    }
+                                    
+                                    for awayPlayer in awayPlayers.values
+                                    {
+                                        if let awayPerson = awayPlayer.person,
+                                           let awayPersonId = awayPerson.id,
+                                           let awaySkaterStats = awayPlayer.stats?.skaterStats
+                                        {
+                                            if !playerIds.contains(awayPersonId)
+                                            {
+                                                insertPlayers.append(DatabasePlayer(from: awayPerson))
+                                                playerIds.append(awayPersonId)
+                                            }
+                                            
+                                            insertPlayerStats.append(DatabasePlayerStats(from: awaySkaterStats,
+                                                                                         usingGameId: gameId,
+                                                                                         usingTeamId: awayTeamId,
+                                                                                         usingPlayerId: awayPersonId))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    insertTransaction.insert(values: insertPlayers)
+                    insertTransaction.insert(values: insertPlayerStats)
+                    logger.info("Inserting \(insertPlayers.count) players to database.")
+                    logger.info("Inserting \(insertPlayerStats.count) player stats to database.")
+                    if let inserted = Database.execute(insertTransaction)
+                    {
+                        logger.info("Inserted \(inserted) players and player stats to database.")
+                    }
+                }
+            }
+        }
+
+        logger.info("Finished setting up: Player Stats AND Players")
     }
 }

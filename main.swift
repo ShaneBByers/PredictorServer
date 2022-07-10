@@ -12,8 +12,8 @@ let logger = Logger(subsystem: Logger.id, category: Logger.Category.testing.rawV
 
 let setup = Setup()
 
-setup.setupTeamStats()
+setup.setupPlayerStatsAndPlayers()
 
 let delete = Delete()
 
-//delete.deleteTeamStats()
+//delete.deletePlayerStatsAndPlayers()

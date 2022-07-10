@@ -90,4 +90,17 @@ extension DatabaseTable
         }
         return dateFormatter
     }
+    
+    func getTimeOnIceSeconds(from timeString: String?) -> Int?
+    {
+        if let timeString = timeString,
+           timeString.contains(":"),
+           let minutes = Int(timeString.components(separatedBy: ":")[0]),
+           let seconds = Int(timeString.components(separatedBy: ":")[1])
+        {
+            return (minutes * 60) + seconds
+        }
+        
+        return nil
+    }
 }
