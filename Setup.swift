@@ -18,7 +18,7 @@ struct Setup
         setupSeasons()
         setupGames()
         setupTeamStats()
-        setupPlayerStatsAndPlayers()
+        setupPlayersAndSkaterStatsAndGoalieStats()
         logger.info("Finished setting up: All Data")
     }
     
@@ -115,7 +115,7 @@ struct Setup
     func setupGames()
     {
         logger.info("Setting up: Games")
-        if let seasons = Database.select(DatabaseSeason.self, where: Where(DatabaseSeason.self, .id, >=, 20052006)),
+        if let seasons = Database.select(DatabaseSeason.self),
            let teams = Database.select(DatabaseTeam.self)
         {
             var teamIds = teams.map { $0.id }
@@ -198,7 +198,7 @@ struct Setup
     func setupTeamStats()
     {
         logger.info("Setting up: Team Stats")
-        if let seasons = Database.select(DatabaseSeason.self, where: Where(DatabaseSeason.self, .id, >=, 20052006))
+        if let seasons = Database.select(DatabaseSeason.self)
         {
             for season in seasons
             {
@@ -234,19 +234,19 @@ struct Setup
         logger.info("Finished setting up: Team Stats")
     }
     
-    func setupPlayerStatsAndPlayers()
+    func setupPlayersAndSkaterStatsAndGoalieStats()
     {
-        logger.info("Setting up: Player Stats AND Players")
+        logger.info("Setting up: Players AND Skater Stats AND Goalie Stats")
         if let players = Database.select(DatabasePlayer.self)
         {
             var playerIds = players.map { $0.id }
-            var insertTransaction = Transaction()
-            if let seasons = Database.select(DatabaseSeason.self, where: Where(DatabaseSeason.self, .id, >=, 20052006))
+            if let seasons = Database.select(DatabaseSeason.self)
             {
                 for season in seasons
                 {
                     var insertPlayers: [DatabasePlayer] = []
-                    var insertPlayerStats: [DatabasePlayerStats] = []
+                    var insertSkaterStats: [DatabaseSkaterStats] = []
+                    var insertGoalieStats: [DatabaseGoalieStats] = []
                     if let seasonId = season.id,
                        let games = Database.select(DatabaseGame.self, where: Where(DatabaseGame.self, .seasonId, ==, seasonId))
                     {
@@ -264,8 +264,7 @@ struct Setup
                                     for homePlayer in homePlayers.values
                                     {
                                         if let homePerson = homePlayer.person,
-                                           let homePersonId = homePerson.id,
-                                           let homeSkaterStats = homePlayer.stats?.skaterStats
+                                           let homePersonId = homePerson.id
                                         {
                                             if !playerIds.contains(homePersonId)
                                             {
@@ -273,18 +272,28 @@ struct Setup
                                                 playerIds.append(homePersonId)
                                             }
                                             
-                                            insertPlayerStats.append(DatabasePlayerStats(from: homeSkaterStats,
-                                                                                         usingGameId: gameId,
-                                                                                         usingTeamId: homeTeamId,
-                                                                                         usingPlayerId: homePersonId))
+                                            if let homeSkaterStats = homePlayer.stats?.skaterStats
+                                            {
+                                                insertSkaterStats.append(DatabaseSkaterStats(from: homeSkaterStats,
+                                                                                             usingGameId: gameId,
+                                                                                             usingTeamId: homeTeamId,
+                                                                                             usingPlayerId: homePersonId))
+                                            }
+                                            
+                                            if let homeGoalieStats = homePlayer.stats?.goalieStats
+                                            {
+                                                insertGoalieStats.append(DatabaseGoalieStats(from: homeGoalieStats,
+                                                                                             usingGameId: gameId,
+                                                                                             usingTeamId: homeTeamId,
+                                                                                             usingPlayerId: homePersonId))
+                                            }
                                         }
                                     }
                                     
                                     for awayPlayer in awayPlayers.values
                                     {
                                         if let awayPerson = awayPlayer.person,
-                                           let awayPersonId = awayPerson.id,
-                                           let awaySkaterStats = awayPlayer.stats?.skaterStats
+                                           let awayPersonId = awayPerson.id
                                         {
                                             if !playerIds.contains(awayPersonId)
                                             {
@@ -292,28 +301,42 @@ struct Setup
                                                 playerIds.append(awayPersonId)
                                             }
                                             
-                                            insertPlayerStats.append(DatabasePlayerStats(from: awaySkaterStats,
-                                                                                         usingGameId: gameId,
-                                                                                         usingTeamId: awayTeamId,
-                                                                                         usingPlayerId: awayPersonId))
+                                            if let awaySkaterStats = awayPlayer.stats?.skaterStats
+                                            {
+                                                insertSkaterStats.append(DatabaseSkaterStats(from: awaySkaterStats,
+                                                                                             usingGameId: gameId,
+                                                                                             usingTeamId: awayTeamId,
+                                                                                             usingPlayerId: awayPersonId))
+                                            }
+                                            
+                                            if let awayGoalieStats = awayPlayer.stats?.goalieStats
+                                            {
+                                                insertGoalieStats.append(DatabaseGoalieStats(from: awayGoalieStats,
+                                                                                             usingGameId: gameId,
+                                                                                             usingTeamId: awayTeamId,
+                                                                                             usingPlayerId: awayPersonId))
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                    var insertTransaction = Transaction()
                     insertTransaction.insert(values: insertPlayers)
-                    insertTransaction.insert(values: insertPlayerStats)
+                    insertTransaction.insert(values: insertSkaterStats)
+                    insertTransaction.insert(values: insertGoalieStats)
                     logger.info("Inserting \(insertPlayers.count) players to database.")
-                    logger.info("Inserting \(insertPlayerStats.count) player stats to database.")
+                    logger.info("Inserting \(insertSkaterStats.count) skater stats to database.")
+                    logger.info("Inserting \(insertGoalieStats.count) goalie stats to database.")
                     if let inserted = Database.execute(insertTransaction)
                     {
-                        logger.info("Inserted \(inserted) players and player stats to database.")
+                        logger.info("Inserted \(inserted) players and skater/goalie stats to database.")
                     }
                 }
             }
         }
 
-        logger.info("Finished setting up: Player Stats AND Players")
+        logger.info("Finished setting up: Players AND Skater Stats AND Goalie Stats")
     }
 }

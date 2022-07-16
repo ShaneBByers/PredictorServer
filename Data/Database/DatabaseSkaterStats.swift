@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct DatabasePlayerStats: DatabaseTable
+struct DatabaseSkaterStats: DatabaseTable
 {
-    typealias ColumnType = PlayerStatsColumn
+    typealias ColumnType = SkaterStatsColumn
     
-    static var tableName = "PLAYER_STATS"
+    static var tableName = "SKATER_STATS"
     
     var gameId: Int?
     var teamId: Int?
@@ -39,7 +39,7 @@ struct DatabasePlayerStats: DatabaseTable
     
     init(from decoder: Decoder)
     {
-        let container = try? decoder.container(keyedBy: PlayerStatsColumn.self)
+        let container = try? decoder.container(keyedBy: SkaterStatsColumn.self)
         gameId = decodeInt(from: container, for: .gameId)
         teamId = decodeInt(from: container, for: .teamId)
         playerId = decodeInt(from: container, for: .playerId)
@@ -79,7 +79,7 @@ struct DatabasePlayerStats: DatabaseTable
         shGoals = stats.shortHandedGoals
         shAssists = stats.shortHandedAssists
         pim = stats.penaltyMinutes
-        faceoffTaken = stats.faceOffTaken
+        faceoffTaken = stats.faceoffTaken
         faceoffWins = stats.faceOffWins
         takeaways = stats.takeaways
         giveaways = stats.giveaways
@@ -91,11 +91,11 @@ struct DatabasePlayerStats: DatabaseTable
         shToiSec = getTimeOnIceSeconds(from: stats.shortHandedTimeOnIce)
     }
     
-    static func editableColumns() -> [PlayerStatsColumn] {
-        return PlayerStatsColumn.allCases
+    static func editableColumns() -> [SkaterStatsColumn] {
+        return SkaterStatsColumn.allCases
     }
     
-    func values() -> [PlayerStatsColumn : Encodable] {
+    func values() -> [SkaterStatsColumn : Encodable] {
         return [.gameId: gameId,
                 .teamId: teamId,
                 .playerId: playerId,
@@ -119,7 +119,7 @@ struct DatabasePlayerStats: DatabaseTable
                 .shToiSec: shToiSec]
     }
     
-    enum PlayerStatsColumn: String, DatabaseColumn
+    enum SkaterStatsColumn: String, DatabaseColumn
     {
         case gameId = "GAME_ID"
         case teamId = "TEAM_ID"

@@ -35,8 +35,13 @@
 		43BF76C027CA86B500CD9874 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF76BF27CA86B500CD9874 /* Transaction.swift */; };
 		43D412212879FDAD00B7E496 /* DatabaseTeamStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D412202879FDAD00B7E496 /* DatabaseTeamStats.swift */; };
 		43D41225287A67A100B7E496 /* WebPlayerStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D41224287A67A100B7E496 /* WebPlayerStats.swift */; };
-		43D41227287A6BCC00B7E496 /* DatabasePlayerStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D41226287A6BCC00B7E496 /* DatabasePlayerStats.swift */; };
+		43D41227287A6BCC00B7E496 /* DatabaseSkaterStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D41226287A6BCC00B7E496 /* DatabaseSkaterStats.swift */; };
 		43D41229287A725600B7E496 /* DatabasePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D41228287A725600B7E496 /* DatabasePlayer.swift */; };
+		43D4122D287B784F00B7E496 /* DatabaseGoalieStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D4122C287B784F00B7E496 /* DatabaseGoalieStats.swift */; };
+		43D41230287BCFCD00B7E496 /* SkaterModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D4122F287BCFCD00B7E496 /* SkaterModelFactory.swift */; };
+		43D41232287D16C700B7E496 /* SkaterModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D41231287D16C700B7E496 /* SkaterModelData.swift */; };
+		43D41234287E63E400B7E496 /* ModelSkaterStatsGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D41233287E63E400B7E496 /* ModelSkaterStatsGame.swift */; };
+		43D41236287E640800B7E496 /* ModelTeamStatsGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D41235287E640800B7E496 /* ModelTeamStatsGame.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -81,8 +86,13 @@
 		43BF76BF27CA86B500CD9874 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		43D412202879FDAD00B7E496 /* DatabaseTeamStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseTeamStats.swift; sourceTree = "<group>"; };
 		43D41224287A67A100B7E496 /* WebPlayerStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPlayerStats.swift; sourceTree = "<group>"; };
-		43D41226287A6BCC00B7E496 /* DatabasePlayerStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabasePlayerStats.swift; sourceTree = "<group>"; };
+		43D41226287A6BCC00B7E496 /* DatabaseSkaterStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseSkaterStats.swift; sourceTree = "<group>"; };
 		43D41228287A725600B7E496 /* DatabasePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabasePlayer.swift; sourceTree = "<group>"; };
+		43D4122C287B784F00B7E496 /* DatabaseGoalieStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseGoalieStats.swift; sourceTree = "<group>"; };
+		43D4122F287BCFCD00B7E496 /* SkaterModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkaterModelFactory.swift; sourceTree = "<group>"; };
+		43D41231287D16C700B7E496 /* SkaterModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkaterModelData.swift; sourceTree = "<group>"; };
+		43D41233287E63E400B7E496 /* ModelSkaterStatsGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSkaterStatsGame.swift; sourceTree = "<group>"; };
+		43D41235287E640800B7E496 /* ModelTeamStatsGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTeamStatsGame.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,12 +141,13 @@
 			children = (
 				434FA945287358BD00FEB0F2 /* DatabaseConference.swift */,
 				434FA94B28735D0500FEB0F2 /* DatabaseDivision.swift */,
-				4388EC6827CC406D004BB9E9 /* DatabaseTeam.swift */,
 				434FA9512873617700FEB0F2 /* DatabaseSeason.swift */,
 				434FA9552873C82900FEB0F2 /* DatabaseGame.swift */,
+				4388EC6827CC406D004BB9E9 /* DatabaseTeam.swift */,
 				43D412202879FDAD00B7E496 /* DatabaseTeamStats.swift */,
-				43D41226287A6BCC00B7E496 /* DatabasePlayerStats.swift */,
 				43D41228287A725600B7E496 /* DatabasePlayer.swift */,
+				43D41226287A6BCC00B7E496 /* DatabaseSkaterStats.swift */,
+				43D4122C287B784F00B7E496 /* DatabaseGoalieStats.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -165,6 +176,7 @@
 				43BF76A427C2938100CD9874 /* Database */,
 				4388EC6F27DE5E45004BB9E9 /* Web */,
 				4388EC6727CC404C004BB9E9 /* Data */,
+				43D4122E287BCFB500B7E496 /* Regression */,
 				43B1EC76277C30D5003BFE5D /* main.swift */,
 				43B1EC74277C30D5003BFE5D /* Products */,
 			);
@@ -195,6 +207,17 @@
 				43BF76AD27C3F1F100CD9874 /* DatabaseTable.swift */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		43D4122E287BCFB500B7E496 /* Regression */ = {
+			isa = PBXGroup;
+			children = (
+				43D4122F287BCFCD00B7E496 /* SkaterModelFactory.swift */,
+				43D41231287D16C700B7E496 /* SkaterModelData.swift */,
+				43D41233287E63E400B7E496 /* ModelSkaterStatsGame.swift */,
+				43D41235287E640800B7E496 /* ModelTeamStatsGame.swift */,
+			);
+			path = Regression;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,14 +307,18 @@
 				434FA94828735C5100FEB0F2 /* WebDivision.swift in Sources */,
 				43BF769827C1C8D400CD9874 /* Database.swift in Sources */,
 				43D41225287A67A100B7E496 /* WebPlayerStats.swift in Sources */,
+				43D4122D287B784F00B7E496 /* DatabaseGoalieStats.swift in Sources */,
+				43D41236287E640800B7E496 /* ModelTeamStatsGame.swift in Sources */,
+				43D41234287E63E400B7E496 /* ModelSkaterStatsGame.swift in Sources */,
 				43BF76BE27C5D7E500CD9874 /* Logger.swift in Sources */,
 				43D41229287A725600B7E496 /* DatabasePlayer.swift in Sources */,
-				43D41227287A6BCC00B7E496 /* DatabasePlayerStats.swift in Sources */,
+				43D41227287A6BCC00B7E496 /* DatabaseSkaterStats.swift in Sources */,
 				434FA933287264D400FEB0F2 /* Setup.swift in Sources */,
 				434FA93E28729FFB00FEB0F2 /* DatabaseLogin.swift in Sources */,
 				43B1EC77277C30D5003BFE5D /* main.swift in Sources */,
 				434FA95B2879FA3B00FEB0F2 /* WebTeamStats.swift in Sources */,
 				434FA93B28729E0E00FEB0F2 /* Select.swift in Sources */,
+				43D41230287BCFCD00B7E496 /* SkaterModelFactory.swift in Sources */,
 				4388EC7127DE5E5A004BB9E9 /* WebRequest.swift in Sources */,
 				43D412212879FDAD00B7E496 /* DatabaseTeamStats.swift in Sources */,
 				43BF769227C1B5EE00CD9874 /* ConstantsTemplate.swift in Sources */,
@@ -303,6 +330,7 @@
 				4388EC6927CC406D004BB9E9 /* DatabaseTeam.swift in Sources */,
 				434FA94C28735D0500FEB0F2 /* DatabaseDivision.swift in Sources */,
 				434FA9542873C27500FEB0F2 /* WebGame.swift in Sources */,
+				43D41232287D16C700B7E496 /* SkaterModelData.swift in Sources */,
 				43BF76C027CA86B500CD9874 /* Transaction.swift in Sources */,
 				434FA93928729B7F00FEB0F2 /* DatabaseRequest.swift in Sources */,
 				434FA942287357F400FEB0F2 /* WebConference.swift in Sources */,

@@ -60,6 +60,7 @@ struct WebPlayerStats: WebData
                 struct PlayerStats: Decodable
                 {
                     var skaterStats: SkaterStats?
+                    var goalieStats: GoalieStats?
                     
                     struct SkaterStats: Decodable
                     {
@@ -73,7 +74,7 @@ struct WebPlayerStats: WebData
                         var shortHandedGoals: Int?
                         var shortHandedAssists: Int?
                         var penaltyMinutes: Int?
-                        var faceOffTaken: Int?
+                        var faceoffTaken: Int?
                         var faceOffWins: Int?
                         var takeaways: Int?
                         var giveaways: Int?
@@ -81,6 +82,20 @@ struct WebPlayerStats: WebData
                         var evenTimeOnIce: String?
                         var powerPlayTimeOnIce: String?
                         var shortHandedTimeOnIce: String?
+                    }
+                    
+                    struct GoalieStats: Decodable
+                    {
+                        var timeOnIce: String?
+                        var shots: Int?
+                        var saves: Int?
+                        var powerPlaySaves: Int?
+                        var shortHandedSaves: Int?
+                        var evenSaves: Int?
+                        var shortHandedShotsAgainst: Int?
+                        var evenShotsAgainst: Int?
+                        var powerPlayShotsAgainst: Int?
+                        var decision: String?
                     }
                 }
             }

@@ -17,9 +17,9 @@ struct Select: DatabaseRequest
         self.init(table, on: nil, where: nil)
     }
     
-    init<TableT: DatabaseTable>(_ table: TableT.Type, where whereClause: Where)
+    init<TableT: DatabaseTable>(_ table: TableT.Type, where whereClause: [Where])
     {
-        self.init(table, on: nil, where: [whereClause])
+        self.init(table, on: nil, where: whereClause)
     }
     
     init<TableT: DatabaseTable>(_ table: TableT.Type, on cols: [TableT.ColumnType]?, where whereClauses: [Where]?)
@@ -30,7 +30,7 @@ struct Select: DatabaseRequest
             query += "("
             for col in cols
             {
-                query += "\(col), "
+                query += "\(col.rawValue), "
             }
             query.removeLast(2)
             query += ")"

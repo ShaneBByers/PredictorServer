@@ -10,10 +10,11 @@ import OSLog
 
 let logger = Logger(subsystem: Logger.id, category: Logger.Category.testing.rawValue)
 
-let setup = Setup()
+//let setup = Setup()
+//setup.setupPlayersAndSkaterStatsAndGoalieStats()
+//let delete = Delete()
+//delete.deleteSkaterStatsAndGoalieStatsAndPlayers()
 
-setup.setupPlayerStatsAndPlayers()
+let skaterModel = SkaterModelFactory.createModel()
 
-let delete = Delete()
-
-//delete.deletePlayerStatsAndPlayers()
+print(skaterModel)

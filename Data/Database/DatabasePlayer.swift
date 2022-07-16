@@ -20,7 +20,7 @@ struct DatabasePlayer: DatabaseTable
     var birthdate: Date?
     var heightInches: Int?
     var weight: Int?
-    var shoots: String?
+    var shootsCatches: String?
     var position: String?
     var positionType: String?
     
@@ -36,7 +36,7 @@ struct DatabasePlayer: DatabaseTable
         birthdate = decodeDateTime(from: container, for: .birthdate, ofType: .dbDate)
         heightInches = decodeInt(from: container, for: .heightInches)
         weight = decodeInt(from: container, for: .weight)
-        shoots = decodeString(from: container, for: .shoots)
+        shootsCatches = decodeString(from: container, for: .shootsCatches)
         position = decodeString(from: container, for: .position)
         positionType = decodeString(from: container, for: .positionType)
     }
@@ -63,7 +63,7 @@ struct DatabasePlayer: DatabaseTable
         }
         
         weight = webPlayer.weight
-        shoots = webPlayer.shootsCatches
+        shootsCatches = webPlayer.shootsCatches
         position = webPlayer.primaryPosition?.abbreviation
         positionType = webPlayer.primaryPosition?.type
     }
@@ -80,7 +80,7 @@ struct DatabasePlayer: DatabaseTable
                 .birthdate: birthdate,
                 .heightInches: heightInches,
                 .weight: weight,
-                .shoots: shoots,
+                .shootsCatches: shootsCatches,
                 .position: position,
                 .positionType: positionType]
     }
@@ -94,7 +94,7 @@ struct DatabasePlayer: DatabaseTable
         case birthdate = "BIRTHDATE"
         case heightInches = "HEIGHT_INCHES"
         case weight = "WEIGHT"
-        case shoots = "SHOOTS"
+        case shootsCatches = "SHOOTS_CATCHES"
         case position = "POSITION"
         case positionType = "POSITION_TYPE"
     }

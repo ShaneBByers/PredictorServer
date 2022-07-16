@@ -12,7 +12,7 @@ struct Delete
     func deleteAllData()
     {
         logger.info("Deleting: All Data")
-        deletePlayerStatsAndPlayers()
+        deleteSkaterStatsAndGoalieStatsAndPlayers()
         deleteTeamStats()
         deleteGames()
         deleteSeasons()
@@ -22,20 +22,24 @@ struct Delete
         logger.info("Finished deleting: All Data")
     }
     
-    func deletePlayerStatsAndPlayers()
+    func deleteSkaterStatsAndGoalieStatsAndPlayers()
     {
-        logger.info("Deleting: Player Stats AND Players")
-        logger.info("Deleting player stats from database.")
-        if let deletedPlayerStats = Database.delete(from: DatabasePlayerStats.self, where: [Where(DatabasePlayerStats.self, .gameId, >, 0)])
+        logger.info("Deleting: Skater Stats AND Goalie Stats AND Players")
+        logger.info("Deleting skater stats from database.")
+        if let deletedSkaterStats = Database.delete(from: DatabaseSkaterStats.self, where: [Where(DatabaseSkaterStats.self, .gameId, >, 0)])
         {
-            logger.info("Deleted \(deletedPlayerStats) player stats from database.")
+            logger.info("Deleted \(deletedSkaterStats) skater stats from database.")
+        }
+        if let deletedGoalieStats = Database.delete(from: DatabaseGoalieStats.self, where: [Where(DatabaseGoalieStats.self, .gameId, >, 0)])
+        {
+            logger.info("Deleted \(deletedGoalieStats) goalie stats from database.")
         }
         logger.info("Deleting players from database.")
         if let deletedPlayers = Database.delete(from: DatabasePlayer.self, where: [Where(DatabasePlayer.self, .id, >, 0)])
         {
             logger.info("Deleted \(deletedPlayers) players from database.")
         }
-        logger.info("Finished deleting: Player Stats AND Players")
+        logger.info("Finished deleting: Skater Stats AND Goalie Stats AND Players")
     }
     
     func deleteTeamStats()

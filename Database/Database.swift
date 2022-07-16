@@ -54,6 +54,11 @@ struct Database
     
     static func select<TableT: DatabaseTable>(_ table: TableT.Type, where whereClause: Where) -> [TableT]?
     {
+        return select(Select(table, where: [whereClause]))
+    }
+    
+    static func select<TableT: DatabaseTable>(_ table: TableT.Type, where whereClause: [Where]) -> [TableT]?
+    {
         return select(Select(table, where: whereClause))
     }
     
