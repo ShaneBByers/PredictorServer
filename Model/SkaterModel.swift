@@ -8,21 +8,22 @@
 import Foundation
 import CreateML
 
-struct SkaterModelFactory
+struct SkaterModel
 {
-    static func createModel() -> MLDataTable
+    var dataTable: MLDataTable
+    
+    mutating func create()
     {
-        let skaterModelList = SkaterModelFactory.getSkaterModels()
+        let skaterModelDataList = getSkaterModelDataList()
         
-        let skaterDataTable = SkaterModelFactory.getSkaterDataTable(using: skaterModelList)
-        
-        return skaterDataTable
+        dataTable = getSkaterDataTable(using: skaterModelDataList)
     }
     
-    private static func getSkaterModels() -> [SkaterModelData]
+    private func getSkaterModelDataList() -> [SkaterModelData]
     {
-        var allSkatersModelData: [SkaterModelData] = []
+        var skaterModelDataList: [SkaterModelData] = []
         
+        logger.log("Attempting to get all Skater and Team Stats data from database.")
         let skaterStatsWhereClause = [
             Where(DatabaseSkaterStats.self, .gameId, >=, 2005000000),
             Where(DatabaseSkaterStats.self, .gameId, <=, 2006000000)
@@ -31,8 +32,6 @@ struct SkaterModelFactory
             Where(DatabaseTeamStats.self, .gameId, >=, 2005000000),
             Where(DatabaseTeamStats.self, .gameId, >=, 2006000000)
         ]
-        
-        logger.log("Attempting to get all Skater and Team Stats data from database.")
         if var skaterStatsList = Database.select(DatabaseSkaterStats.self,
                                                  where: skaterStatsWhereClause),
            var teamStatsList = Database.select(DatabaseTeamStats.self,
@@ -83,23 +82,29 @@ struct SkaterModelFactory
                 {
                     let skaterModelData = SkaterModelData(forGame: gameId,
                                                           seasonSkaterStats: seasonSkaterStats,
-                                                          seasonTeamStats: seasonTeamStats)
-//                    logger.log("Succesfully converted skater stats with Game ID: \(skaterStats.gameId!) and Team ID: \(teamId) and Player ID: \(playerId)")
-                    allSkatersModelData.append(skaterModelData)
+                                                          seasonTeamStats: seasonTeamStats,
+                                                          expected: skaterStats)
+                    skaterModelDataList.append(skaterModelData)
                 }
             }
+            logger.log("Successfully created model data objects.")
         }
         
-        return allSkatersModelData
+        return skaterModelDataList
     }
     
-    private static func getSkaterDataTable(using skaterModels: [SkaterModelData]) -> MLDataTable
+    private func getSkaterDataTable(using skaterModelDataList: [SkaterModelData]) -> MLDataTable
     {
         var dataTable = MLDataTable()
         
-        let testColumn = MLDataColumn(skaterModels.map({ $0.seasonAverageSkaterData.goals }))
+        SkaterModelGameStats.addColumns(to: &dataTable,
+                                        using: skaterModelDataList.map { $0.seasonAverageSkaterData },
+                                        prefix: "Season Average ")
         
-        dataTable.addColumn(testColumn, named: "Test Column")
+        SkaterModelExpectedStats.addColumns(to: &dataTable,
+                                            using: skaterModelDataList.map { $0.expectedStats })
+        
+        logger.log("Successfully create model data table.")
         
         return dataTable
     }

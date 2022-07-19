@@ -15,6 +15,4 @@ let logger = Logger(subsystem: Logger.id, category: Logger.Category.testing.rawV
 //let delete = Delete()
 //delete.deleteSkaterStatsAndGoalieStatsAndPlayers()
 
-let skaterModel = SkaterModelFactory.createModel()
-
-print(skaterModel)
+SkaterModelFactory.createModel()
