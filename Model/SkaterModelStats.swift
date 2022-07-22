@@ -24,6 +24,6 @@ extension SkaterModelStats
                                         prefix: String? = nil,
                                         suffix: String? = nil) -> String
     {
-        return "\(prefix ?? "") \(col.rawValue) \(suffix ?? "")"
+        return "\(prefix ?? "")\(col.rawValue)\(suffix ?? "")"
     }
 }

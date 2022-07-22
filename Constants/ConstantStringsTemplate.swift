@@ -13,4 +13,5 @@ enum ConstantStringsTemplate : String
     case DB_USERNAME = "DB_USERNAME"
     case DB_PASSWORD = "DB_PASSWORD"
     case DB_DATABASE_NAME = "DB_DATABASE_NAME"
+    case REGRESSORS_DIRECTORY_PATH = "REGRESSORS_DIRECTORY_PATH"
 }
